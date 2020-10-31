@@ -1,5 +1,4 @@
-﻿using System;
-namespace SharpChess
+﻿namespace SharpChess
 {
     abstract public class Piece
     {
