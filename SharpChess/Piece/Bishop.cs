@@ -1,15 +1,15 @@
 ﻿using System;
 namespace SharpChess
 {
-    public class Pawn : Piece
+    public class Bishop : Piece
     {
-        public Pawn(PieceColor color) : base(color)
+        public Bishop(PieceColor color) : base(color)
         {
         }
 
         public override string Render()
         {
-            return "p";
+            return "R";
         }
     }
 }

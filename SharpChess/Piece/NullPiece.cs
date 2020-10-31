@@ -5,9 +5,8 @@ namespace SharpChess
     {
         private static NullPiece instance = null;
 
-        private NullPiece()
+        private NullPiece() : base(PieceColor.Null)
         {
-            color = PieceColor.Null;
         }
 
         public static NullPiece GetInstance()

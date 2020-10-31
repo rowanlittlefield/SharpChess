@@ -4,8 +4,9 @@
     {
         public PieceColor color;
 
-        public Piece()
+        public Piece(PieceColor color)
         {
+            this.color = color;
         }
 
         public abstract string Render();
