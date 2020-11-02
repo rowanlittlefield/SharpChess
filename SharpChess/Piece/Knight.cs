@@ -1,5 +1,4 @@
-﻿using System;
-namespace SharpChess
+﻿namespace SharpChess
 {
     public class Knight : Piece
     {
