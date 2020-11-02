@@ -9,7 +9,7 @@ namespace SharpChess
 
         public override string Render()
         {
-            return "R";
+            return "b";
         }
     }
 }
