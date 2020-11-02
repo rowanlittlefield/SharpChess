@@ -88,6 +88,12 @@ namespace SharpChess
             grid[GridLength - 1, 1] = new Knight(PieceColor.Black);
             grid[GridLength - 1, GridLength - 2] = new Knight(PieceColor.Black);
 
+            grid[0, 2] = new Bishop(PieceColor.White);
+            grid[0, GridLength - 3] = new Bishop(PieceColor.White);
+            grid[GridLength - 1, 2] = new Bishop(PieceColor.Black);
+            grid[GridLength - 1, GridLength - 3] = new Bishop(PieceColor.Black);
+
+
             return grid;
         }
     }
