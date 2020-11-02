@@ -1,10 +1,14 @@
-﻿using System;
-namespace SharpChess.Piece
+﻿namespace SharpChess
 {
-    public class King
+    public class King : Piece
     {
-        public King()
+        public King(PieceColor color) : base(color)
         {
+        }
+
+        public override string Render()
+        {
+            return "K";
         }
     }
 }
