@@ -1,13 +1,11 @@
-﻿using System;
-namespace SharpChess
+﻿namespace SharpChess
 {
     public sealed class NullPiece : Piece
     {
         private static NullPiece instance = null;
 
-        private NullPiece()
+        private NullPiece() : base(PieceColor.Null)
         {
-            color = PieceColor.Null;
         }
 
         public static NullPiece GetInstance()

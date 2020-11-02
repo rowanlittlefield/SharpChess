@@ -1,14 +1,14 @@
 ﻿namespace SharpChess
 {
-    public class Pawn : Piece
+    public class Rook : Piece
     {
-        public Pawn(PieceColor color) : base(color)
+        public Rook(PieceColor color) : base(color)
         {
         }
 
         public override string Render()
         {
-            return "p";
+            return "r";
         }
     }
 }
