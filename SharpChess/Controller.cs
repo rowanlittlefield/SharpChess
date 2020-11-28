@@ -32,6 +32,8 @@ namespace SharpChess
                     return UserAction.Down;
                 case 'a':
                     return UserAction.Left;
+                case ' ':
+                    return UserAction.Enter;
                 default:
                     return UserAction.Null;
             }
