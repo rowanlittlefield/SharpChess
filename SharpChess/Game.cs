@@ -52,14 +52,15 @@ namespace SharpChess
         {
             Console.Clear();
             board.Render();
-            Console.WriteLine("Play turn");
+            Console.WriteLine("Current Player: {0}", currentPlayer);
 
             var userAction = controller.getUserAction();
 
             switch (userAction)
             {
                 case UserAction.Enter:
-                    board.selectCursorPiece();
+                    //board.selectCursorPiece(currentPlayer);
+                    board.handleEnter(currentPlayer);
                     break;
                 default:
                     board.moveCursor(userAction);

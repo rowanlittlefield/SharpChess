@@ -19,7 +19,7 @@ namespace SharpChess
             var coordinates = (0, 0);
             var moveOptions = new HashSet<(int, int)> { };
             var piece = NullPiece.GetInstance();
-            this.pieceSelection = new PieceSelection(coordinates, moveOptions, piece);
+            pieceSelection = new PieceSelection(coordinates, moveOptions, piece);
         }
 
         public bool GameOver()
@@ -73,12 +73,42 @@ namespace SharpChess
             cursor.Move(userAction);
         }
 
-        public void selectCursorPiece()
+        public void handleEnter(PieceColor currentPlayer)
+        {
+            if (pieceSelection.piece == NullPiece.GetInstance())
+            {
+                selectCursorPiece(currentPlayer);
+            }
+            else if (IsValidMove(cursor.getCoordinates(), currentPlayer))
+            {
+                MoveSelectedPiece(cursor.getCoordinates());
+            }
+        }
+
+        private void selectCursorPiece(PieceColor currentPlayer)
         {
             var coordinates = cursor.getCoordinates();
             var piece = grid[coordinates.Item1, coordinates.Item2];
-            var moveOptions = piece.GetMoveOptions(this, coordinates);
-            pieceSelection = new PieceSelection(coordinates, moveOptions, piece);
+            var isCurrentPlayerPiece = piece.color == currentPlayer;
+            if (isCurrentPlayerPiece)
+            {
+                var moveOptions = piece.GetMoveOptions(this, coordinates);
+                pieceSelection = new PieceSelection(coordinates, moveOptions, piece);
+            }
+        }
+
+        private void MoveSelectedPiece((int, int) coordinates)
+        {
+            grid[coordinates.Item1, coordinates.Item2] = pieceSelection.piece;
+            grid[
+                pieceSelection.coordinates.Item1,
+                pieceSelection.coordinates.Item2
+            ] = NullPiece.GetInstance();
+
+            var newCoordinates = (0, 0);
+            var moveOptions = new HashSet<(int, int)> { };
+            var piece = NullPiece.GetInstance();
+            pieceSelection = new PieceSelection(newCoordinates, moveOptions, piece);
         }
 
         public bool IsValidMove((int, int) position, PieceColor color)
