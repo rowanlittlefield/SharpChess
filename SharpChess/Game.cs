@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 
 namespace SharpChess
 {
@@ -32,7 +31,7 @@ namespace SharpChess
 
             while (!isTurnOver)
             {
-                PlayTick();
+                isTurnOver = PlayTick();
             }
 
             switch (currentPlayer)
@@ -59,14 +58,10 @@ namespace SharpChess
             switch (userAction)
             {
                 case UserAction.Enter:
-                    //board.selectCursorPiece(currentPlayer);
-                    board.handleEnter(currentPlayer);
-                    break;
+                    return board.handleEnter(currentPlayer);
                 default:
-                    board.moveCursor(userAction);
-                    break;
+                    return board.moveCursor(userAction);
             }
-            return false;
         }
 
         private void ShowGameOverMessage()

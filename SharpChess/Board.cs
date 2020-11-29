@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
 
 namespace SharpChess
 {
@@ -16,7 +15,7 @@ namespace SharpChess
             cursor = new Cursor(Board.GridLength);
             grid = CreateGrid();
 
-            var coordinates = (0, 0);
+            var coordinates = (-1, -1);
             var moveOptions = new HashSet<(int, int)> { };
             var piece = NullPiece.GetInstance();
             pieceSelection = new PieceSelection(coordinates, moveOptions, piece);
@@ -34,14 +33,18 @@ namespace SharpChess
             {
                 for(int j = 0; j < Board.GridLength; j += 1)
                 {
-                    var isCursorPos = cursorPos == (i, j);
-                    if (isCursorPos)
+                    var pos = (i, j);
+                    if (cursorPos == pos)
                     {
                         Console.BackgroundColor = ConsoleColor.Yellow;
                     }
-                    else if (pieceSelection.moveOptions.Contains((i, j)))
+                    else if (pieceSelection.moveOptions.Contains(pos))
                     {
                         Console.BackgroundColor = ConsoleColor.Green;
+                    }
+                    else if (pieceSelection.coordinates == pos)
+                    {
+                        Console.BackgroundColor = ConsoleColor.DarkMagenta;
                     }
 
                     Console.Write("[");
@@ -68,21 +71,22 @@ namespace SharpChess
             }
         }
 
-        public void moveCursor(UserAction userAction)
+        public bool moveCursor(UserAction userAction)
         {
             cursor.Move(userAction);
+            return false;
         }
 
-        public void handleEnter(PieceColor currentPlayer)
+        public bool handleEnter(PieceColor currentPlayer)
         {
-            if (pieceSelection.piece == NullPiece.GetInstance())
-            {
-                selectCursorPiece(currentPlayer);
-            }
-            else if (IsValidMove(cursor.getCoordinates(), currentPlayer))
+            if (pieceSelection.moveOptions.Contains(cursor.getCoordinates()))
             {
                 MoveSelectedPiece(cursor.getCoordinates());
+                return true;
             }
+            
+            selectCursorPiece(currentPlayer);
+            return false;
         }
 
         private void selectCursorPiece(PieceColor currentPlayer)
@@ -95,6 +99,17 @@ namespace SharpChess
                 var moveOptions = piece.GetMoveOptions(this, coordinates);
                 pieceSelection = new PieceSelection(coordinates, moveOptions, piece);
             }
+            else
+            {
+                var nullCoordinates = (-1, -1);
+                var nullMoveOptions = new HashSet<(int, int)> { };
+                var nullPiece = NullPiece.GetInstance();
+                pieceSelection = new PieceSelection(
+                    nullCoordinates,
+                    nullMoveOptions,
+                    nullPiece
+                );
+            }
         }
 
         private void MoveSelectedPiece((int, int) coordinates)
@@ -105,7 +120,7 @@ namespace SharpChess
                 pieceSelection.coordinates.Item2
             ] = NullPiece.GetInstance();
 
-            var newCoordinates = (0, 0);
+            var newCoordinates = (-1, -1);
             var moveOptions = new HashSet<(int, int)> { };
             var piece = NullPiece.GetInstance();
             pieceSelection = new PieceSelection(newCoordinates, moveOptions, piece);
