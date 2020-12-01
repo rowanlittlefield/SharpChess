@@ -71,13 +71,13 @@ namespace SharpChess
             }
         }
 
-        public bool moveCursor(UserAction userAction)
+        public bool MoveCursor(UserAction userAction)
         {
             cursor.Move(userAction);
             return false;
         }
 
-        public bool handleEnter(PieceColor currentPlayer)
+        public bool SelectCursorPosition(PieceColor currentPlayer)
         {
             if (pieceSelection.moveOptions.Contains(cursor.getCoordinates()))
             {

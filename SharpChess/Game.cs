@@ -58,9 +58,9 @@ namespace SharpChess
             switch (userAction)
             {
                 case UserAction.Enter:
-                    return board.handleEnter(currentPlayer);
+                    return board.SelectCursorPosition(currentPlayer);
                 default:
-                    return board.moveCursor(userAction);
+                    return board.MoveCursor(userAction);
             }
         }
 
