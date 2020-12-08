@@ -1,4 +1,6 @@
-﻿namespace SharpChess
+﻿using System.Collections.Generic;
+
+namespace SharpChess
 {
     abstract public class Piece
     {
@@ -10,5 +12,7 @@
         }
 
         public abstract string Render();
+
+        public abstract HashSet<(int, int)> GetMoveOptions(Board board, (int, int) coordinates);
     }
 }

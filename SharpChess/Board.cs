@@ -1,16 +1,24 @@
 ﻿using System;
+using System.Collections.Generic;
+
 namespace SharpChess
 {
     public class Board
     {
-        private static int GridLength = 8;
+        public static readonly int GridLength = 8;
         private Cursor cursor;
         private Piece[,] grid;
+        private PieceSelection pieceSelection;
 
         public Board()
         {
             cursor = new Cursor(Board.GridLength);
             grid = CreateGrid();
+
+            var coordinates = (-1, -1);
+            var moveOptions = new HashSet<(int, int)> { };
+            var piece = NullPiece.GetInstance();
+            pieceSelection = new PieceSelection(coordinates, moveOptions, piece);
         }
 
         public bool GameOver()
@@ -25,10 +33,18 @@ namespace SharpChess
             {
                 for(int j = 0; j < Board.GridLength; j += 1)
                 {
-                    var isCursorPos = cursorPos[0] == i && cursorPos[1] == j;
-                    if (isCursorPos)
+                    var pos = (i, j);
+                    if (cursorPos == pos)
                     {
                         Console.BackgroundColor = ConsoleColor.Yellow;
+                    }
+                    else if (pieceSelection.moveOptions.Contains(pos))
+                    {
+                        Console.BackgroundColor = ConsoleColor.Green;
+                    }
+                    else if (pieceSelection.coordinates == pos)
+                    {
+                        Console.BackgroundColor = ConsoleColor.DarkMagenta;
                     }
 
                     Console.Write("[");
@@ -55,9 +71,68 @@ namespace SharpChess
             }
         }
 
-        public void moveCursor(UserAction userAction)
+        public bool MoveCursor(UserAction userAction)
         {
             cursor.Move(userAction);
+            return false;
+        }
+
+        public bool SelectCursorPosition(PieceColor currentPlayer)
+        {
+            if (pieceSelection.moveOptions.Contains(cursor.getCoordinates()))
+            {
+                MoveSelectedPiece(cursor.getCoordinates());
+                return true;
+            }
+            
+            selectCursorPiece(currentPlayer);
+            return false;
+        }
+
+        private void selectCursorPiece(PieceColor currentPlayer)
+        {
+            var coordinates = cursor.getCoordinates();
+            var piece = grid[coordinates.Item1, coordinates.Item2];
+            var isCurrentPlayerPiece = piece.color == currentPlayer;
+            if (isCurrentPlayerPiece)
+            {
+                var moveOptions = piece.GetMoveOptions(this, coordinates);
+                pieceSelection = new PieceSelection(coordinates, moveOptions, piece);
+            }
+            else
+            {
+                var nullCoordinates = (-1, -1);
+                var nullMoveOptions = new HashSet<(int, int)> { };
+                var nullPiece = NullPiece.GetInstance();
+                pieceSelection = new PieceSelection(
+                    nullCoordinates,
+                    nullMoveOptions,
+                    nullPiece
+                );
+            }
+        }
+
+        private void MoveSelectedPiece((int, int) coordinates)
+        {
+            grid[coordinates.Item1, coordinates.Item2] = pieceSelection.piece;
+            grid[
+                pieceSelection.coordinates.Item1,
+                pieceSelection.coordinates.Item2
+            ] = NullPiece.GetInstance();
+
+            var newCoordinates = (-1, -1);
+            var moveOptions = new HashSet<(int, int)> { };
+            var piece = NullPiece.GetInstance();
+            pieceSelection = new PieceSelection(newCoordinates, moveOptions, piece);
+        }
+
+        public bool IsValidMove((int, int) position, PieceColor color)
+        {
+            var hasXCoordinate = position.Item1 >= 0 && position.Item1 < GridLength;
+            var hasYCoordinate = position.Item2 >= 0 && position.Item2 < GridLength;
+            var isOnBoard = hasXCoordinate && hasYCoordinate;
+            
+            return isOnBoard && grid[position.Item1, position.Item2].color != color;
         }
 
         private Piece[,] CreateGrid()
