@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace SharpChess
 {
-    public readonly struct PieceSelection
+    public class PieceSelection
     {
         public readonly (int, int) coordinates;
         public readonly HashSet<(int, int)> moveOptions;
