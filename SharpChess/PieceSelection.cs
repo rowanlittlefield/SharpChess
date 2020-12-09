@@ -2,7 +2,7 @@
 
 namespace SharpChess
 {
-    public readonly struct PieceSelection
+    public class PieceSelection
     {
         public readonly (int, int) coordinates;
         public readonly HashSet<(int, int)> moveOptions;

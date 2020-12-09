@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace SharpChess
 {
@@ -14,11 +13,7 @@ namespace SharpChess
         {
             cursor = new Cursor(Board.GridLength);
             grid = CreateGrid();
-
-            var coordinates = (-1, -1);
-            var moveOptions = new HashSet<(int, int)> { };
-            var piece = NullPiece.GetInstance();
-            pieceSelection = new PieceSelection(coordinates, moveOptions, piece);
+            pieceSelection = NullPieceSelection.GetInstance();
         }
 
         public bool GameOver()
@@ -101,14 +96,7 @@ namespace SharpChess
             }
             else
             {
-                var nullCoordinates = (-1, -1);
-                var nullMoveOptions = new HashSet<(int, int)> { };
-                var nullPiece = NullPiece.GetInstance();
-                pieceSelection = new PieceSelection(
-                    nullCoordinates,
-                    nullMoveOptions,
-                    nullPiece
-                );
+                pieceSelection = NullPieceSelection.GetInstance();
             }
         }
 
@@ -120,10 +108,7 @@ namespace SharpChess
                 pieceSelection.coordinates.Item2
             ] = NullPiece.GetInstance();
 
-            var newCoordinates = (-1, -1);
-            var moveOptions = new HashSet<(int, int)> { };
-            var piece = NullPiece.GetInstance();
-            pieceSelection = new PieceSelection(newCoordinates, moveOptions, piece);
+            pieceSelection = NullPieceSelection.GetInstance();
         }
 
         public bool IsValidMove((int, int) position, PieceColor color)
