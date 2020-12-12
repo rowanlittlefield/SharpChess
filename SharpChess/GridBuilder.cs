@@ -3,7 +3,7 @@ namespace SharpChess
 {
     public class GridBuilder
     {
-        public static readonly int GridLength = 8;
+        public static readonly int GridLength = SharedConstants.GridLength;
         public GridBuilder()
         {
         }

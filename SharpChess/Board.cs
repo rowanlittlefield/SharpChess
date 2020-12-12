@@ -4,7 +4,7 @@ namespace SharpChess
 {
     public class Board
     {
-        public static readonly int GridLength = 8;
+        public static readonly int GridLength = SharedConstants.GridLength;
         private Cursor cursor;
         private Piece[,] grid;
         private PieceSelection pieceSelection;
