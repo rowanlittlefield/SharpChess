@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 
 namespace SharpChess
 {
@@ -12,7 +13,7 @@ namespace SharpChess
         public Board()
         {
             cursor = new Cursor(Board.GridLength);
-            grid = CreateGrid();
+            grid = new GridBuilder().CreateGrid();
             pieceSelection = NullPieceSelection.GetInstance();
         }
 
@@ -118,48 +119,6 @@ namespace SharpChess
             var isOnBoard = hasXCoordinate && hasYCoordinate;
             
             return isOnBoard && grid[position.Item1, position.Item2].color != color;
-        }
-
-        private Piece[,] CreateGrid()
-        {
-            var grid = new Piece[GridLength, GridLength];
-
-            for (int i = 0; i < GridLength; i += 1)
-            {
-                for (int j = 0; j < GridLength; j += 1)
-                {
-                    grid[i, j] = NullPiece.GetInstance();
-                }
-            }
-
-            for (int i = 0; i < Board.GridLength; i += 1)
-            {
-                grid[1, i] = new Pawn(PieceColor.Black);
-                grid[6, i] = new Pawn(PieceColor.White);
-            }
-
-            grid[0, 0] = new Rook(PieceColor.Black);
-            grid[0, GridLength - 1] = new Rook(PieceColor.Black);
-            grid[GridLength - 1, 0] = new Rook(PieceColor.White);
-            grid[GridLength - 1, GridLength - 1] = new Rook(PieceColor.White);
-
-            grid[0, 1] = new Knight(PieceColor.Black);
-            grid[0, GridLength - 2] = new Knight(PieceColor.Black);
-            grid[GridLength - 1, 1] = new Knight(PieceColor.White);
-            grid[GridLength - 1, GridLength - 2] = new Knight(PieceColor.White);
-
-            grid[0, 2] = new Bishop(PieceColor.Black);
-            grid[0, GridLength - 3] = new Bishop(PieceColor.Black);
-            grid[GridLength - 1, 2] = new Bishop(PieceColor.White);
-            grid[GridLength - 1, GridLength - 3] = new Bishop(PieceColor.White);
-
-            grid[0, 3] = new Queen(PieceColor.Black);
-            grid[GridLength - 1, 3] = new Queen(PieceColor.White);
-
-            grid[0, GridLength - 4] = new King(PieceColor.Black);
-            grid[GridLength - 1, GridLength - 4] = new King(PieceColor.White);
-
-            return grid;
         }
     }
 }
