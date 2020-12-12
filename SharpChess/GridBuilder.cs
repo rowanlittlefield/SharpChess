@@ -18,12 +18,12 @@ namespace SharpChess
             foreach (var line in gridTextLines)
             {
                 var col = 0;
-                var linePieceStrings = line.Split(",");
-                foreach(var pieceString in linePieceStrings)
+                var pieceTokens = line.Split(",");
+                foreach(var pieceToken in pieceTokens)
                 {
-                    if (!string.IsNullOrEmpty(pieceString))
+                    if (!string.IsNullOrEmpty(pieceToken))
                     {
-                        var piece = GetPiece(pieceString);
+                        var piece = GetPiece(pieceToken);
                         grid[row, col] = piece;
                         col += 1;
                     }
@@ -35,15 +35,14 @@ namespace SharpChess
             return grid;
         }
 
-        private Piece GetPiece(string pieceString)
+        private Piece GetPiece(string pieceToken)
         {
-            var tokens = pieceString.Split(":");
-            var pieceClassString = tokens[0];
-            var pieceColorString = tokens[1];
+            var tokens = pieceToken.Split(":");
+            var pieceClassToken = tokens[0];
+            var pieceColorToken = tokens[1];
 
             PieceColor color;
-
-            switch (pieceColorString)
+            switch (pieceColorToken)
             {
                 case "w":
                     color = PieceColor.White;
@@ -55,7 +54,7 @@ namespace SharpChess
                     return NullPiece.GetInstance();
             }
 
-            switch (pieceClassString)
+            switch (pieceClassToken)
             {
                 case "p":
                     return new Pawn(color);
