@@ -6,7 +6,7 @@ namespace SharpChess
     {
         public static readonly int GridLength = SharedConstants.GridLength;
         private Cursor cursor;
-        private Piece[,] grid;
+        public Piece[,] grid { get; private set; }
         private PieceSelection pieceSelection;
 
         public Board()
@@ -102,6 +102,7 @@ namespace SharpChess
 
         private void MoveSelectedPiece((int, int) coordinates)
         {
+            pieceSelection.piece.Move();
             grid[coordinates.Item1, coordinates.Item2] = pieceSelection.piece;
             grid[
                 pieceSelection.coordinates.Item1,

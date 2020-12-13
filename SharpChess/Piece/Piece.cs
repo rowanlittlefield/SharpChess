@@ -4,7 +4,7 @@ namespace SharpChess
 {
     abstract public class Piece
     {
-        public PieceColor color;
+        public readonly PieceColor color;
 
         public Piece(PieceColor color)
         {
@@ -14,5 +14,7 @@ namespace SharpChess
         public abstract string Render();
 
         public abstract HashSet<(int, int)> GetMoveOptions(Board board, (int, int) coordinates);
+
+        public abstract void Move();
     }
 }
