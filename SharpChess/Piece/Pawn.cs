@@ -22,9 +22,9 @@ namespace SharpChess
             _hasMoved = true;
         }
 
-        public override HashSet<(int, int)> GetMoveOptions(Board board, (int, int) coordinates)
+        public override HashSet<(int, int)> GetMoveOptions(Board board)
         {
-            var (row, col) = coordinates;
+            var (row, col) = Coordinates;
             var moveOptions = new HashSet<(int, int)> {};
             int columnDirection;
             switch (this.color)
@@ -39,25 +39,25 @@ namespace SharpChess
                     throw new Exception("Invalid value for this.color");
             }
 
-            if (_canPerformDoubleMove(board, columnDirection, coordinates))
+            if (_canPerformDoubleMove(board, columnDirection))
             {
                 var doubleMove = (row + (2 * columnDirection), col);
                 moveOptions.Add(doubleMove);
             }
 
-            if (_canPerformSingleMove(board, columnDirection, coordinates))
+            if (_canPerformSingleMove(board, columnDirection))
             {
                 var singleMove = (row + columnDirection, col);
                 moveOptions.Add(singleMove);
             }
 
-            if (_canPerformLeftDiagonalMove(board, columnDirection, coordinates))
+            if (_canPerformLeftDiagonalMove(board, columnDirection))
             {
                 var leftDiagonalMove = (row + columnDirection, col - 1);
                 moveOptions.Add(leftDiagonalMove);
             }
 
-            if (_canPerformRightDiagonalMove(board, columnDirection, coordinates))
+            if (_canPerformRightDiagonalMove(board, columnDirection))
             {
                 var rightDiagonalMove = (row + columnDirection, col + 1);
                 moveOptions.Add(rightDiagonalMove);
@@ -66,9 +66,9 @@ namespace SharpChess
             return moveOptions;
         }
 
-        private bool _canPerformDoubleMove(Board board, int columnDirection, (int, int) coordinates)
+        private bool _canPerformDoubleMove(Board board, int columnDirection)
         {
-            var (row, col) = coordinates;
+            var (row, col) = Coordinates;
             var doubleMove = (row + (2 * columnDirection), col);
             if (!board.IsOnBoard(doubleMove))
             {
@@ -82,9 +82,9 @@ namespace SharpChess
                 && !_hasMoved;
         }
 
-        private bool _canPerformSingleMove(Board board, int columnDirection, (int, int) coordinates)
+        private bool _canPerformSingleMove(Board board, int columnDirection)
         {
-            var (row, col) = coordinates;
+            var (row, col) = Coordinates;
             var singleMove = (row + columnDirection, col);
             if (!board.IsOnBoard(singleMove))
             {
@@ -95,9 +95,9 @@ namespace SharpChess
             return pieceInFront.IsNullPiece();
         }
 
-        private bool _canPerformLeftDiagonalMove(Board board, int columnDirection, (int, int) coordinates)
+        private bool _canPerformLeftDiagonalMove(Board board, int columnDirection)
         {
-            var (row, col) = coordinates;
+            var (row, col) = Coordinates;
             var leftDiagonalMove = (row + columnDirection, col - 1);
 
             if (!board.IsValidMove(leftDiagonalMove, this.color))
@@ -109,9 +109,9 @@ namespace SharpChess
             return !leftDiagonalPiece.IsNullPiece();
         }
 
-        private bool _canPerformRightDiagonalMove(Board board, int columnDirection, (int, int) coordinates)
+        private bool _canPerformRightDiagonalMove(Board board, int columnDirection)
         {
-            var (row, col) = coordinates;
+            var (row, col) = Coordinates;
             var rightDiagonalMove = (row + columnDirection, col + 1);
 
             if (!board.IsValidMove(rightDiagonalMove, this.color))

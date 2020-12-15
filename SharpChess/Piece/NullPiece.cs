@@ -25,7 +25,7 @@ namespace SharpChess
             return " ";
         }
 
-        public override HashSet<(int, int)> GetMoveOptions(Board board, (int, int) coordinates)
+        public override HashSet<(int, int)> GetMoveOptions(Board board)
         {
             return new HashSet<(int, int)> { };
         }
