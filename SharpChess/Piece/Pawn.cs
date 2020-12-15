@@ -5,10 +5,10 @@ namespace SharpChess
 {
     public class Pawn : Piece
     {
-        private bool _HasMoved;
+        private bool _hasMoved;
         public Pawn(PieceColor color, (int, int) coordinates) : base(color, coordinates)
         {
-            _HasMoved = false;
+            _hasMoved = false;
         }
 
         public override string Render()
@@ -19,7 +19,7 @@ namespace SharpChess
         public override void Move((int, int) coordinates)
         {
             base.Move(coordinates);
-            _HasMoved = true;
+            _hasMoved = true;
         }
 
         public override HashSet<(int, int)> GetMoveOptions(Board board, (int, int) coordinates)
@@ -79,7 +79,7 @@ namespace SharpChess
             var pieceTwoAway = board.grid[row + (2 * columnDirection), col];
             return pieceInFront.IsNullPiece()
                 && pieceTwoAway.IsNullPiece()
-                && !_HasMoved;
+                && !_hasMoved;
         }
 
         private bool _canPerformSingleMove(Board board, int columnDirection, (int, int) coordinates)
