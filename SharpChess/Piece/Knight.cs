@@ -15,18 +15,13 @@ namespace SharpChess
             (1, 2),
         };
 
-        public Knight(PieceColor color) : base(color)
+        public Knight(PieceColor color, (int, int) coordinates) : base(color, coordinates)
         {
         }
 
         public override string Render()
         {
             return "k";
-        }
-
-        public override void Move()
-        {
-        
         }
 
         public override HashSet<(int, int)> GetMoveOptions(Board board, (int, int) coordinates)

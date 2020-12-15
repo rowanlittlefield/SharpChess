@@ -23,7 +23,7 @@ namespace SharpChess
                 {
                     if (!string.IsNullOrEmpty(pieceToken))
                     {
-                        var piece = GetPiece(pieceToken);
+                        var piece = GetPiece(pieceToken, (row, col));
                         grid[row, col] = piece;
                         col += 1;
                     }
@@ -35,7 +35,7 @@ namespace SharpChess
             return grid;
         }
 
-        private Piece GetPiece(string pieceToken)
+        private Piece GetPiece(string pieceToken, (int, int) coordinates)
         {
             var tokens = pieceToken.Split(":");
             var pieceClassToken = tokens[0];
@@ -57,17 +57,17 @@ namespace SharpChess
             switch (pieceClassToken)
             {
                 case "p":
-                    return new Pawn(color);
+                    return new Pawn(color, coordinates);
                 case "r":
-                    return new Rook(color);
+                    return new Rook(color, coordinates);
                 case "k":
-                    return new Knight(color);
+                    return new Knight(color, coordinates);
                 case "b":
-                    return new Bishop(color);
+                    return new Bishop(color, coordinates);
                 case "Q":
-                    return new Queen(color);
+                    return new Queen(color, coordinates);
                 case "K":
-                    return new King(color);
+                    return new King(color, coordinates);
                 default:
                     return NullPiece.GetInstance();
             }

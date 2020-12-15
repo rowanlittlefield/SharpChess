@@ -102,23 +102,27 @@ namespace SharpChess
 
         private void MoveSelectedPiece((int, int) coordinates)
         {
-            pieceSelection.piece.Move();
-            grid[coordinates.Item1, coordinates.Item2] = pieceSelection.piece;
-            grid[
-                pieceSelection.coordinates.Item1,
-                pieceSelection.coordinates.Item2
-            ] = NullPiece.GetInstance();
-
+            var (row, col) = coordinates;
+            pieceSelection.piece.Move(coordinates);
+            grid[row, col] = pieceSelection.piece;
+            var (oldRow, oldCol) = pieceSelection.coordinates;
+            grid[oldRow, oldCol] = NullPiece.GetInstance();
             pieceSelection = NullPieceSelection.GetInstance();
+        }
+
+        public bool IsOnBoard((int, int) position)
+        {
+            var (row, col) = position;
+            var isRowOnBoard = row >= 0 && row < GridLength;
+            var isColOnBoard = col >= 0 && col < GridLength;
+
+            return isRowOnBoard && isColOnBoard;
         }
 
         public bool IsValidMove((int, int) position, PieceColor color)
         {
-            var hasXCoordinate = position.Item1 >= 0 && position.Item1 < GridLength;
-            var hasYCoordinate = position.Item2 >= 0 && position.Item2 < GridLength;
-            var isOnBoard = hasXCoordinate && hasYCoordinate;
-            
-            return isOnBoard && grid[position.Item1, position.Item2].color != color;
+            var (row, col) = position;
+            return IsOnBoard(position) && grid[row, col].color != color;
         }
     }
 }

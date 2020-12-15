@@ -6,7 +6,7 @@ namespace SharpChess
     public class Pawn : Piece
     {
         private bool _HasMoved;
-        public Pawn(PieceColor color) : base(color)
+        public Pawn(PieceColor color, (int, int) coordinates) : base(color, coordinates)
         {
             _HasMoved = false;
         }
@@ -16,8 +16,9 @@ namespace SharpChess
             return "p";
         }
 
-        public override void Move()
+        public override void Move((int, int) coordinates)
         {
+            base.Move(coordinates);
             _HasMoved = true;
         }
 
@@ -69,32 +70,29 @@ namespace SharpChess
         {
             var (row, col) = coordinates;
             var doubleMove = (row + (2 * columnDirection), col);
-            if (!board.IsValidMove(doubleMove, this.color))
+            if (!board.IsOnBoard(doubleMove))
             {
                 return false;
             }
 
             var pieceInFront = board.grid[row + columnDirection, col];
-            var isPieceInFront = pieceInFront != NullPiece.GetInstance();
             var pieceTwoAway = board.grid[row + (2 * columnDirection), col];
-            var isPieceTwoAway = pieceTwoAway != NullPiece.GetInstance();
-
-            return !isPieceInFront && !isPieceTwoAway && !_HasMoved;
+            return pieceInFront.IsNullPiece()
+                && pieceTwoAway.IsNullPiece()
+                && !_HasMoved;
         }
 
         private bool _canPerformSingleMove(Board board, int columnDirection, (int, int) coordinates)
         {
             var (row, col) = coordinates;
             var singleMove = (row + columnDirection, col);
-            if (!board.IsValidMove(singleMove, this.color))
+            if (!board.IsOnBoard(singleMove))
             {
                 return false;
             }
 
             var pieceInFront = board.grid[row + columnDirection, col];
-            var isPieceInFront = pieceInFront != NullPiece.GetInstance();
-
-            return !isPieceInFront;
+            return pieceInFront.IsNullPiece();
         }
 
         private bool _canPerformLeftDiagonalMove(Board board, int columnDirection, (int, int) coordinates)

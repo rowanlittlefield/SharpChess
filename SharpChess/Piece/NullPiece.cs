@@ -6,7 +6,7 @@ namespace SharpChess
     {
         private static NullPiece instance = null;
 
-        private NullPiece() : base(PieceColor.Null)
+        private NullPiece() : base(PieceColor.Null, (-1, -1))
         {
         }
 
@@ -23,11 +23,6 @@ namespace SharpChess
         public override string Render()
         {
             return " ";
-        }
-
-        public override void Move()
-        {
-
         }
 
         public override HashSet<(int, int)> GetMoveOptions(Board board, (int, int) coordinates)
