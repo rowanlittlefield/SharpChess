@@ -15,7 +15,7 @@ namespace SharpChess
 
         public abstract string Render();
 
-        public abstract HashSet<(int, int)> GetMoveOptions(Board board, (int, int) coordinates);
+        public abstract HashSet<(int, int)> GetMoveOptions(Board board);
 
         public virtual void Move((int, int) coordinates)
         {

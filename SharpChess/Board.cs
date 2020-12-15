@@ -37,7 +37,7 @@ namespace SharpChess
                     {
                         Console.BackgroundColor = ConsoleColor.Green;
                     }
-                    else if (pieceSelection.coordinates == pos)
+                    else if (pieceSelection.piece.Coordinates == pos)
                     {
                         Console.BackgroundColor = ConsoleColor.DarkMagenta;
                     }
@@ -91,8 +91,8 @@ namespace SharpChess
             var isCurrentPlayerPiece = piece.color == currentPlayer;
             if (isCurrentPlayerPiece)
             {
-                var moveOptions = piece.GetMoveOptions(this, coordinates);
-                pieceSelection = new PieceSelection(coordinates, moveOptions, piece);
+                var moveOptions = piece.GetMoveOptions(this);
+                pieceSelection = new PieceSelection(piece, moveOptions);
             }
             else
             {
@@ -102,10 +102,10 @@ namespace SharpChess
 
         private void MoveSelectedPiece((int, int) coordinates)
         {
+            var (oldRow, oldCol) = pieceSelection.piece.Coordinates;
             var (row, col) = coordinates;
             pieceSelection.piece.Move(coordinates);
             grid[row, col] = pieceSelection.piece;
-            var (oldRow, oldCol) = pieceSelection.coordinates;
             grid[oldRow, oldCol] = NullPiece.GetInstance();
             pieceSelection = NullPieceSelection.GetInstance();
         }

@@ -6,7 +6,7 @@ namespace SharpChess
     {
         private static NullPieceSelection instance = null;
 
-        private NullPieceSelection() : base((-1, -1), new HashSet<(int, int)> {}, NullPiece.GetInstance())
+        private NullPieceSelection() : base(NullPiece.GetInstance(), new HashSet<(int, int)> {})
         {
         }
 
