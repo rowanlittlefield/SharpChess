@@ -106,7 +106,7 @@ namespace SharpChess
             }
 
             var leftDiagonalPiece = board.grid[row + columnDirection, col - 1];
-            return leftDiagonalPiece != NullPiece.GetInstance();
+            return !leftDiagonalPiece.IsNullPiece();
         }
 
         private bool _canPerformRightDiagonalMove(Board board, int columnDirection, (int, int) coordinates)
@@ -120,7 +120,7 @@ namespace SharpChess
             }
 
             var rightDiagonalPiece = board.grid[row + columnDirection, col + 1];
-            return rightDiagonalPiece != NullPiece.GetInstance();
+            return !rightDiagonalPiece.IsNullPiece();
         }
     }
 }
