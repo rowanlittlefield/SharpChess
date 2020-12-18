@@ -5,9 +5,16 @@ namespace SharpChess
 {
     public class Pawn : Piece
     {
+        private static readonly Dictionary<PieceColor, int> _columnDirectionMap = new Dictionary<PieceColor, int>()
+        {
+            { PieceColor.Black, 1 },
+            { PieceColor.White, -1 },
+        };
+        private readonly int _columnDirection;
         private bool _hasMoved;
         public Pawn(PieceColor color, (int, int) coordinates) : base(color, coordinates)
         {
+            _columnDirection = Pawn._columnDirectionMap.GetValueOrDefault(this.color);
             _hasMoved = false;
         }
 
@@ -26,100 +33,88 @@ namespace SharpChess
         {
             var (row, col) = Coordinates;
             var moveOptions = new HashSet<(int, int)> {};
-            int columnDirection;
-            switch (this.color)
-            {
-                case PieceColor.Black:
-                    columnDirection = 1;
-                    break;
-                case PieceColor.White:
-                    columnDirection = -1;
-                    break;
-                default:
-                    throw new Exception("Invalid value for this.color");
-            }
 
-            if (_canPerformDoubleMove(board, columnDirection))
+            if (_canPerformDoubleMove(board))
             {
-                var doubleMove = (row + (2 * columnDirection), col);
+                var doubleMove = (row + (2 * _columnDirection), col);
                 moveOptions.Add(doubleMove);
             }
 
-            if (_canPerformSingleMove(board, columnDirection))
+            if (_canPerformSingleMove(board))
             {
-                var singleMove = (row + columnDirection, col);
+                var singleMove = (row + _columnDirection, col);
                 moveOptions.Add(singleMove);
             }
 
-            if (_canPerformLeftDiagonalMove(board, columnDirection))
+            if (_canPerformLeftDiagonalMove(board))
             {
-                var leftDiagonalMove = (row + columnDirection, col - 1);
+                var leftDiagonalMove = (row + _columnDirection, col - 1);
                 moveOptions.Add(leftDiagonalMove);
             }
 
-            if (_canPerformRightDiagonalMove(board, columnDirection))
+            if (_canPerformRightDiagonalMove(board))
             {
-                var rightDiagonalMove = (row + columnDirection, col + 1);
+                var rightDiagonalMove = (row + _columnDirection, col + 1);
                 moveOptions.Add(rightDiagonalMove);
             }
 
             return moveOptions;
         }
 
-        private bool _canPerformDoubleMove(Board board, int columnDirection)
+        private bool _canPerformDoubleMove(Board board)
         {
             var (row, col) = Coordinates;
-            var doubleMove = (row + (2 * columnDirection), col);
+            var doubleMove = (row + (2 * _columnDirection), col);
             if (!board.IsOnBoard(doubleMove))
             {
                 return false;
             }
 
-            var pieceInFront = board.GetPiece((row + columnDirection, col));
-            var pieceTwoAway = board.GetPiece((row + (2 * columnDirection), col));
+            var pieceInFront = board.GetPiece((row + _columnDirection, col));
+            var pieceTwoAway = board.GetPiece((row + (2 * _columnDirection), col));
             return pieceInFront.IsNullPiece()
                 && pieceTwoAway.IsNullPiece()
                 && !_hasMoved;
         }
 
-        private bool _canPerformSingleMove(Board board, int columnDirection)
+        private bool _canPerformSingleMove(Board board)
         {
             var (row, col) = Coordinates;
-            var singleMove = (row + columnDirection, col);
+            var singleMove = (row + _columnDirection, col);
             if (!board.IsOnBoard(singleMove))
             {
                 return false;
             }
 
-            var pieceInFront = board.GetPiece((row + columnDirection, col));
+            var pieceInFront = board.GetPiece((row + _columnDirection, col));
             return pieceInFront.IsNullPiece();
         }
 
-        private bool _canPerformLeftDiagonalMove(Board board, int columnDirection)
+        private bool _canPerformLeftDiagonalMove(Board board)
         {
             var (row, col) = Coordinates;
-            var leftDiagonalMove = (row + columnDirection, col - 1);
+            var leftDiagonalMove = (row + _columnDirection, col - 1);
 
             if (!board.IsValidMove(leftDiagonalMove, this.color))
             {
                 return false;
             }
 
-            var leftDiagonalPiece = board.GetPiece((row + columnDirection, col - 1));
+            var leftDiagonalPiece = board.GetPiece((row + _columnDirection, col - 1));
             return !leftDiagonalPiece.IsNullPiece();
         }
 
-        private bool _canPerformRightDiagonalMove(Board board, int columnDirection)
+        private bool _canPerformRightDiagonalMove(Board board)
         {
             var (row, col) = Coordinates;
-            var rightDiagonalMove = (row + columnDirection, col + 1);
+            var rightDiagonalMove = (row + _columnDirection, col + 1);
 
             if (!board.IsValidMove(rightDiagonalMove, this.color))
             {
                 return false;
             }
 
-            var rightDiagonalPiece = board.GetPiece((row + columnDirection, col + 1));
+            var rightDiagonalPiece = board.GetPiece((row + _columnDirection, col + 1));
             return !rightDiagonalPiece.IsNullPiece();
         }
     }
