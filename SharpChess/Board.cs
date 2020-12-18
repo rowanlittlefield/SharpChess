@@ -6,7 +6,7 @@ namespace SharpChess
     {
         public static readonly int GridLength = SharedConstants.GridLength;
         private Cursor cursor;
-        public Piece[,] grid { get; private set; }
+        private Piece[,] grid;
         private PieceSelection pieceSelection;
 
         public Board()
@@ -123,6 +123,12 @@ namespace SharpChess
         {
             var (row, col) = position;
             return IsOnBoard(position) && grid[row, col].color != color;
+        }
+
+        public Piece GetPiece((int, int) coordinates)
+        {
+            var (row, col) = coordinates;
+            return grid[row, col];
         }
     }
 }

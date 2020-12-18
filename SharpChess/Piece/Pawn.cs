@@ -75,8 +75,8 @@ namespace SharpChess
                 return false;
             }
 
-            var pieceInFront = board.grid[row + columnDirection, col];
-            var pieceTwoAway = board.grid[row + (2 * columnDirection), col];
+            var pieceInFront = board.GetPiece((row + columnDirection, col));
+            var pieceTwoAway = board.GetPiece((row + (2 * columnDirection), col));
             return pieceInFront.IsNullPiece()
                 && pieceTwoAway.IsNullPiece()
                 && !_hasMoved;
@@ -91,7 +91,7 @@ namespace SharpChess
                 return false;
             }
 
-            var pieceInFront = board.grid[row + columnDirection, col];
+            var pieceInFront = board.GetPiece((row + columnDirection, col));
             return pieceInFront.IsNullPiece();
         }
 
@@ -105,7 +105,7 @@ namespace SharpChess
                 return false;
             }
 
-            var leftDiagonalPiece = board.grid[row + columnDirection, col - 1];
+            var leftDiagonalPiece = board.GetPiece((row + columnDirection, col - 1));
             return !leftDiagonalPiece.IsNullPiece();
         }
 
@@ -119,7 +119,7 @@ namespace SharpChess
                 return false;
             }
 
-            var rightDiagonalPiece = board.grid[row + columnDirection, col + 1];
+            var rightDiagonalPiece = board.GetPiece((row + columnDirection, col + 1));
             return !rightDiagonalPiece.IsNullPiece();
         }
     }
