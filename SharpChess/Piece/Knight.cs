@@ -31,7 +31,8 @@ namespace SharpChess
             foreach ((int, int) diff in MOVE_DIFFS)
             {
                 var position = (diff.Item1 + row, diff.Item2 + col);
-                if (board.IsValidMove(position, color))
+                var isValidMove = board.IsOnBoard(position) && board.GetPiece(position).color != this.color;
+                if (isValidMove)
                 {
                     moveOptions.Add(position);
                 }
