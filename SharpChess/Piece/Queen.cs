@@ -4,7 +4,7 @@ namespace SharpChess
 {
     public class Queen : Piece
     {
-        public Queen(PieceColor color) : base(color) 
+        public Queen(PieceColor color, (int, int) coordinates) : base(color, coordinates)
         {
         }
 
@@ -13,7 +13,7 @@ namespace SharpChess
             return "Q";
         }
 
-        public override HashSet<(int, int)> GetMoveOptions(Board board, (int, int) coordinates)
+        public override HashSet<(int, int)> GetMoveOptions(Board board)
         {
             return new HashSet<(int, int)> { };
         }

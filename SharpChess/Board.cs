@@ -37,7 +37,7 @@ namespace SharpChess
                     {
                         Console.BackgroundColor = ConsoleColor.Green;
                     }
-                    else if (pieceSelection.coordinates == pos)
+                    else if (pieceSelection.piece.Coordinates == pos)
                     {
                         Console.BackgroundColor = ConsoleColor.DarkMagenta;
                     }
@@ -91,8 +91,8 @@ namespace SharpChess
             var isCurrentPlayerPiece = piece.color == currentPlayer;
             if (isCurrentPlayerPiece)
             {
-                var moveOptions = piece.GetMoveOptions(this, coordinates);
-                pieceSelection = new PieceSelection(coordinates, moveOptions, piece);
+                var moveOptions = piece.GetMoveOptions(this);
+                pieceSelection = new PieceSelection(piece, moveOptions);
             }
             else
             {
@@ -102,22 +102,27 @@ namespace SharpChess
 
         private void MoveSelectedPiece((int, int) coordinates)
         {
-            grid[coordinates.Item1, coordinates.Item2] = pieceSelection.piece;
-            grid[
-                pieceSelection.coordinates.Item1,
-                pieceSelection.coordinates.Item2
-            ] = NullPiece.GetInstance();
-
+            var (oldRow, oldCol) = pieceSelection.piece.Coordinates;
+            var (row, col) = coordinates;
+            pieceSelection.piece.Move(coordinates);
+            grid[row, col] = pieceSelection.piece;
+            grid[oldRow, oldCol] = NullPiece.GetInstance();
             pieceSelection = NullPieceSelection.GetInstance();
         }
 
-        public bool IsValidMove((int, int) position, PieceColor color)
+        public bool IsOnBoard((int, int) position)
         {
-            var hasXCoordinate = position.Item1 >= 0 && position.Item1 < GridLength;
-            var hasYCoordinate = position.Item2 >= 0 && position.Item2 < GridLength;
-            var isOnBoard = hasXCoordinate && hasYCoordinate;
-            
-            return isOnBoard && grid[position.Item1, position.Item2].color != color;
+            var (row, col) = position;
+            var isRowOnBoard = row >= 0 && row < GridLength;
+            var isColOnBoard = col >= 0 && col < GridLength;
+
+            return isRowOnBoard && isColOnBoard;
+        }
+
+        public Piece GetPiece((int, int) coordinates)
+        {
+            var (row, col) = coordinates;
+            return grid[row, col];
         }
     }
 }

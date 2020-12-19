@@ -4,7 +4,7 @@ namespace SharpChess
 {
     public class Bishop : Piece
     {
-        public Bishop(PieceColor color) : base(color)
+        public Bishop(PieceColor color, (int, int) coordinates) : base(color, coordinates)
         {
         }
 
@@ -13,7 +13,7 @@ namespace SharpChess
             return "b";
         }
 
-        public override HashSet<(int, int)> GetMoveOptions(Board board, (int, int) coordinates)
+        public override HashSet<(int, int)> GetMoveOptions(Board board)
         {
             return new HashSet<(int, int)> { };
         }

@@ -4,15 +4,13 @@ namespace SharpChess
 {
     public class PieceSelection
     {
-        public readonly (int, int) coordinates;
         public readonly HashSet<(int, int)> moveOptions;
         public readonly Piece piece;
 
-        public PieceSelection((int, int) coordinates, HashSet<(int, int)> moveOptions, Piece piece)
+        public PieceSelection(Piece piece, HashSet<(int, int)> moveOptions)
         {
-            this.coordinates = coordinates;
-            this.moveOptions = moveOptions;
             this.piece = piece;
+            this.moveOptions = moveOptions;
         }
     }
 }
