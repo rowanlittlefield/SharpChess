@@ -119,12 +119,6 @@ namespace SharpChess
             return isRowOnBoard && isColOnBoard;
         }
 
-        public bool IsValidMove((int, int) position, PieceColor color)
-        {
-            var (row, col) = position;
-            return IsOnBoard(position) && grid[row, col].color != color;
-        }
-
         public Piece GetPiece((int, int) coordinates)
         {
             var (row, col) = coordinates;

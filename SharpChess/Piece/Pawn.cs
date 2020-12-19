@@ -94,28 +94,26 @@ namespace SharpChess
         {
             var (row, col) = Coordinates;
             var leftDiagonalMove = (row + _columnDirection, col - 1);
-
-            if (!board.IsValidMove(leftDiagonalMove, this.color))
+            if (!board.IsOnBoard(leftDiagonalMove))
             {
                 return false;
             }
 
-            var leftDiagonalPiece = board.GetPiece((row + _columnDirection, col - 1));
-            return !leftDiagonalPiece.IsNullPiece();
+            var leftDiagonalPiece = board.GetPiece(leftDiagonalMove);
+            return !leftDiagonalPiece.IsNullPiece() && leftDiagonalPiece.color != this.color;
         }
 
         private bool _canPerformRightDiagonalMove(Board board)
         {
             var (row, col) = Coordinates;
             var rightDiagonalMove = (row + _columnDirection, col + 1);
-
-            if (!board.IsValidMove(rightDiagonalMove, this.color))
+            if (!board.IsOnBoard(rightDiagonalMove))
             {
                 return false;
             }
 
             var rightDiagonalPiece = board.GetPiece((row + _columnDirection, col + 1));
-            return !rightDiagonalPiece.IsNullPiece();
+            return !rightDiagonalPiece.IsNullPiece() && rightDiagonalPiece.color != this.color;
         }
     }
 }
