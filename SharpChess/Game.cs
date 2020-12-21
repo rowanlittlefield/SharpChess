@@ -19,19 +19,19 @@ namespace SharpChess
         {
             while (!board.GameOver())
             {
-                PlayTurn();
+                _playTurn();
             }
 
-            ShowGameOverMessage();
+            _showGameOverMessage();
         }
 
-        private void PlayTurn()
+        private void _playTurn()
         {
             var isTurnOver = false;
 
             while (!isTurnOver)
             {
-                isTurnOver = PlayTick();
+                isTurnOver = _playTick();
             }
 
             switch (currentPlayer)
@@ -47,7 +47,7 @@ namespace SharpChess
             }
         }
 
-        private bool PlayTick()
+        private bool _playTick()
         {
             Console.Clear();
             board.Render();
@@ -64,7 +64,7 @@ namespace SharpChess
             }
         }
 
-        private void ShowGameOverMessage()
+        private void _showGameOverMessage()
         {
             Console.Clear();
             board.Render();

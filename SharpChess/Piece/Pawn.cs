@@ -14,7 +14,7 @@ namespace SharpChess
         private bool _hasMoved;
         public Pawn(PieceColor color, (int, int) coordinates) : base(color, coordinates)
         {
-            _columnDirection = Pawn._columnDirectionMap.GetValueOrDefault(this.color);
+            _columnDirection = Pawn._columnDirectionMap.GetValueOrDefault(Color);
             _hasMoved = false;
         }
 
@@ -100,7 +100,7 @@ namespace SharpChess
             }
 
             var leftDiagonalPiece = board.GetPiece(leftDiagonalMove);
-            return !leftDiagonalPiece.IsNullPiece() && leftDiagonalPiece.color != this.color;
+            return !leftDiagonalPiece.IsNullPiece() && leftDiagonalPiece.Color != Color;
         }
 
         private bool _canPerformRightDiagonalMove(Board board)
@@ -113,7 +113,7 @@ namespace SharpChess
             }
 
             var rightDiagonalPiece = board.GetPiece((row + _columnDirection, col + 1));
-            return !rightDiagonalPiece.IsNullPiece() && rightDiagonalPiece.color != this.color;
+            return !rightDiagonalPiece.IsNullPiece() && rightDiagonalPiece.Color != Color;
         }
     }
 }

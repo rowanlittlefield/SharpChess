@@ -14,13 +14,13 @@ namespace SharpChess
             while (userAction == UserAction.Null)
             {
                 var userInput = Console.ReadKey().KeyChar;
-                userAction = MapInput(userInput);
+                userAction = _mapInput(userInput);
             }
 
             return userAction;
         }
 
-        private UserAction MapInput(char userInput)
+        private UserAction _mapInput(char userInput)
         {
             switch (userInput)
             {

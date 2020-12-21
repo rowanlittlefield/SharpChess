@@ -45,12 +45,12 @@ namespace SharpChess
                     Console.Write("[");
 
                     var piece = grid[i, j];
-                    if (piece.color == PieceColor.Black)
+                    if (piece.Color == PieceColor.Black)
                     {
                         Console.ForegroundColor = ConsoleColor.DarkCyan;
                     }
 
-                    if (piece.color == PieceColor.White)
+                    if (piece.Color == PieceColor.White)
                     {
                         Console.ForegroundColor = ConsoleColor.Gray;
                     }
@@ -88,7 +88,7 @@ namespace SharpChess
         {
             var coordinates = cursor.getCoordinates();
             var piece = grid[coordinates.Item1, coordinates.Item2];
-            var isCurrentPlayerPiece = piece.color == currentPlayer;
+            var isCurrentPlayerPiece = piece.Color == currentPlayer;
             if (isCurrentPlayerPiece)
             {
                 var moveOptions = piece.GetMoveOptions(this);

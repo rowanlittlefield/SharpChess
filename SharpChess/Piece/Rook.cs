@@ -46,7 +46,7 @@ namespace SharpChess
             {
                 position = (position.Item1 + rowDiff, position.Item2 + colDiff);
                 var invalidMove = !board.IsOnBoard(position)
-                    || board.GetPiece(position).color == this.color;
+                    || board.GetPiece(position).Color == Color;
                 if (invalidMove)
                 {
                     isPathClear = false;
