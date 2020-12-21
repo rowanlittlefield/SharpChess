@@ -23,7 +23,7 @@ namespace SharpChess
             switch (userAction)
             {
                 case UserAction.Up:
-                    _coordinates.Item1 = col > 0 ? col - 1 : _boardDimensions - 1;
+                    _coordinates.Item1 = row > 0 ? row - 1 : _boardDimensions - 1;
                     break;
                 case UserAction.Right:
                     _coordinates.Item2 = (col + 1) % _boardDimensions;
@@ -32,7 +32,7 @@ namespace SharpChess
                     _coordinates.Item1 = (row + 1) % _boardDimensions;
                     break;
                 case UserAction.Left:
-                    _coordinates.Item2 = row > 0 ? row - 1 : _boardDimensions - 1;
+                    _coordinates.Item2 = col > 0 ? col - 1 : _boardDimensions - 1;
                     break;
                 default:
                     break;
