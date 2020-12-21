@@ -39,27 +39,22 @@ namespace SharpChess
         {
             var moveOptions = new HashSet<(int, int)> {};
             var position = Coordinates;
+            var (rowDiff, colDiff) = moveDiff;
 
-            var shouldContinue = true;
-            while (shouldContinue)
+            var isPathClear = true;
+            while (isPathClear)
             {
-                position = (position.Item1 + moveDiff.Item1, position.Item2 + moveDiff.Item2);
-                if (!board.IsOnBoard(position))
+                position = (position.Item1 + rowDiff, position.Item2 + colDiff);
+                var invalidMove = !board.IsOnBoard(position)
+                    || board.GetPiece(position).color == this.color;
+                if (invalidMove)
                 {
-                    shouldContinue = false;
-                }
-                else if (board.GetPiece(position).IsNullPiece())
-                {
-                    moveOptions.Add(position);
-                }
-                else if (board.GetPiece(position).color == this.color)
-                {
-                    shouldContinue = false;
+                    isPathClear = false;
                 }
                 else
                 {
                     moveOptions.Add(position);
-                    shouldContinue = false;
+                    isPathClear = board.GetPiece(position).IsNullPiece();
                 }
             }
 
