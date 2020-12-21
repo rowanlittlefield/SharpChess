@@ -23,10 +23,10 @@ namespace SharpChess
         public override HashSet<(int, int)> GetMoveOptions(Board board)
         {
             var moveOptions = new HashSet<(int, int)> { };
-            foreach ((int, int) moveDiff in MOVE_DIFFS)
+            foreach (var moveDiff in MOVE_DIFFS)
             {
                 var movesInDirection = _getMovesInDirection(board, moveDiff);
-                foreach ((int, int) position in movesInDirection)
+                foreach (var position in movesInDirection)
                 {
                     moveOptions.Add(position);
                 }
