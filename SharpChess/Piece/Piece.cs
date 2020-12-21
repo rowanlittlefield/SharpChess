@@ -4,12 +4,12 @@ namespace SharpChess
 {
     abstract public class Piece
     {
-        public readonly PieceColor color;
+        public readonly PieceColor Color;
         public (int, int) Coordinates { get; private set; }
 
         public Piece(PieceColor color, (int, int) coordinates)
         {
-            this.color = color;
+            Color = color;
             Coordinates = coordinates;
         }
 

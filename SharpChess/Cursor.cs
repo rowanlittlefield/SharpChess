@@ -3,37 +3,36 @@ namespace SharpChess
 {
     public class Cursor
     {
-        private (int, int) coordinates;
-        private int boardDimensions;
+        private (int, int) _coordinates;
+        private int _boardDimensions;
 
         public Cursor(int boardDimensions)
         {
-            this.boardDimensions = boardDimensions;
-            coordinates = (0, 0);
+            _boardDimensions = boardDimensions;
+            _coordinates = (0, 0);
         }
 
         public (int, int) getCoordinates()
         {
-            return coordinates;
+            return _coordinates;
         }
 
         public void Move(UserAction userAction)
         {
+            var (row, col) = _coordinates;
             switch (userAction)
             {
                 case UserAction.Up:
-                    var y = coordinates.Item1;
-                    coordinates.Item1 = y > 0 ? y - 1 : boardDimensions - 1;
+                    _coordinates.Item1 = col > 0 ? col - 1 : _boardDimensions - 1;
                     break;
                 case UserAction.Right:
-                    coordinates.Item2 = (coordinates.Item2 + 1) % boardDimensions;
+                    _coordinates.Item2 = (col + 1) % _boardDimensions;
                     break;
                 case UserAction.Down:
-                    coordinates.Item1 = (coordinates.Item1 + 1) % boardDimensions;
+                    _coordinates.Item1 = (row + 1) % _boardDimensions;
                     break;
                 case UserAction.Left:
-                    var x = coordinates.Item2;
-                    coordinates.Item2 = x > 0 ? x - 1 : boardDimensions - 1;
+                    _coordinates.Item2 = row > 0 ? row - 1 : _boardDimensions - 1;
                     break;
                 default:
                     break;

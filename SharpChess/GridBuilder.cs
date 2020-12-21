@@ -23,7 +23,7 @@ namespace SharpChess
                 {
                     if (!string.IsNullOrEmpty(pieceToken))
                     {
-                        var piece = ParseToken(pieceToken, (row, col));
+                        var piece = _parseToken(pieceToken, (row, col));
                         grid[row, col] = piece;
                         col += 1;
                     }
@@ -35,7 +35,7 @@ namespace SharpChess
             return grid;
         }
 
-        private Piece ParseToken(string pieceToken, (int, int) coordinates)
+        private Piece _parseToken(string pieceToken, (int, int) coordinates)
         {
             var tokens = pieceToken.Split(":");
             var pieceClassToken = tokens[0];
