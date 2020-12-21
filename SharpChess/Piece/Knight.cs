@@ -4,7 +4,7 @@ namespace SharpChess
 {
     public class Knight : Piece
     {
-        public static readonly (int, int)[] MOVE_DIFFS = {
+        private static readonly (int, int)[] MOVE_DIFFS = {
             (2, 1),
             (2, -1),
             (1, -2),
