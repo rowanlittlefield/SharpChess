@@ -27,21 +27,19 @@ namespace SharpChess
             var kingPosition = (0, 0);
             foreach (var piece in grid)
             {
-                var isKing = piece is King && piece.Color == playerColor;
-                if (isKing)
+                var isPlayersKing = piece is King && piece.Color == playerColor;
+                if (isPlayersKing)
                 {
                     kingPosition = piece.Coordinates;
                 }
             }
 
-            var opponentPieceQuery = from Piece piece in grid
-                                     let isNull = piece.Color == PieceColor.Null
-                                     let isOwn = piece.Color == playerColor
-                                     let isOpponentPiece = !isNull && !isOwn
-                                     where isOpponentPiece
-                                     select piece;
+            var pieceQuery = from Piece piece in grid
+                             select piece;
 
-            return opponentPieceQuery
+            return pieceQuery
+                .Where(piece => piece.Color != PieceColor.Null)
+                .Where(piece => piece.Color != playerColor)
                 .Any(piece => piece.GetMoveOptions(this).Contains(kingPosition));
         }
 
