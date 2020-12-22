@@ -6,15 +6,15 @@ namespace SharpChess
     public class Board
     {
         public static readonly int GridLength = SharedConstants.GridLength;
-        private Cursor cursor;
-        private Piece[,] grid;
-        private PieceSelection pieceSelection;
+        private Cursor _cursor;
+        private Piece[,] _grid;
+        private PieceSelection _pieceSelection;
 
         public Board()
         {
-            cursor = new Cursor(Board.GridLength);
-            grid = new GridBuilder().CreateGrid();
-            pieceSelection = NullPieceSelection.GetInstance();
+            _cursor = new Cursor(Board.GridLength);
+            _grid = new GridBuilder().CreateGrid();
+            _pieceSelection = NullPieceSelection.GetInstance();
         }
 
         public bool GameOver()
@@ -25,7 +25,7 @@ namespace SharpChess
         public bool IsInCheck(PieceColor playerColor)
         {
             var kingPosition = (0, 0);
-            foreach (var piece in grid)
+            foreach (var piece in _grid)
             {
                 var isPlayersKing = piece is King && piece.Color == playerColor;
                 if (isPlayersKing)
@@ -34,7 +34,7 @@ namespace SharpChess
                 }
             }
 
-            var pieceQuery = from Piece piece in grid
+            var pieceQuery = from Piece piece in _grid
                              select piece;
 
             return pieceQuery
@@ -44,7 +44,7 @@ namespace SharpChess
 
         public void Render()
         {
-            var cursorPos = cursor.getCoordinates();
+            var cursorPos = _cursor.getCoordinates();
             for (int i = 0; i < Board.GridLength; i += 1)
             {
                 for(int j = 0; j < Board.GridLength; j += 1)
@@ -54,18 +54,18 @@ namespace SharpChess
                     {
                         Console.BackgroundColor = ConsoleColor.Yellow;
                     }
-                    else if (pieceSelection.moveOptions.Contains(pos))
+                    else if (_pieceSelection.moveOptions.Contains(pos))
                     {
                         Console.BackgroundColor = ConsoleColor.Green;
                     }
-                    else if (pieceSelection.piece.Coordinates == pos)
+                    else if (_pieceSelection.piece.Coordinates == pos)
                     {
                         Console.BackgroundColor = ConsoleColor.DarkMagenta;
                     }
 
                     Console.Write("[");
 
-                    var piece = grid[i, j];
+                    var piece = _grid[i, j];
                     if (piece.Color == PieceColor.Black)
                     {
                         Console.ForegroundColor = ConsoleColor.DarkCyan;
@@ -89,15 +89,15 @@ namespace SharpChess
 
         public bool MoveCursor(UserAction userAction)
         {
-            cursor.Move(userAction);
+            _cursor.Move(userAction);
             return false;
         }
 
         public bool SelectCursorPosition(PieceColor currentPlayer)
         {
-            if (pieceSelection.moveOptions.Contains(cursor.getCoordinates()))
+            if (_pieceSelection.moveOptions.Contains(_cursor.getCoordinates()))
             {
-                _moveSelectedPiece(cursor.getCoordinates());
+                _moveSelectedPiece(_cursor.getCoordinates());
                 return true;
             }
             
@@ -107,28 +107,28 @@ namespace SharpChess
 
         private void _selectCursorPiece(PieceColor currentPlayer)
         {
-            var coordinates = cursor.getCoordinates();
-            var piece = grid[coordinates.Item1, coordinates.Item2];
+            var coordinates = _cursor.getCoordinates();
+            var piece = _grid[coordinates.Item1, coordinates.Item2];
             var isCurrentPlayerPiece = piece.Color == currentPlayer;
             if (isCurrentPlayerPiece)
             {
                 var moveOptions = piece.GetMoveOptions(this);
-                pieceSelection = new PieceSelection(piece, moveOptions);
+                _pieceSelection = new PieceSelection(piece, moveOptions);
             }
             else
             {
-                pieceSelection = NullPieceSelection.GetInstance();
+                _pieceSelection = NullPieceSelection.GetInstance();
             }
         }
 
         private void _moveSelectedPiece((int, int) coordinates)
         {
-            var (oldRow, oldCol) = pieceSelection.piece.Coordinates;
+            var (oldRow, oldCol) = _pieceSelection.piece.Coordinates;
             var (row, col) = coordinates;
-            pieceSelection.piece.Move(coordinates);
-            grid[row, col] = pieceSelection.piece;
-            grid[oldRow, oldCol] = NullPiece.GetInstance();
-            pieceSelection = NullPieceSelection.GetInstance();
+            _pieceSelection.piece.Move(coordinates);
+            _grid[row, col] = _pieceSelection.piece;
+            _grid[oldRow, oldCol] = NullPiece.GetInstance();
+            _pieceSelection = NullPieceSelection.GetInstance();
         }
 
         public bool IsOnBoard((int, int) position)
@@ -143,7 +143,7 @@ namespace SharpChess
         public Piece GetPiece((int, int) coordinates)
         {
             var (row, col) = coordinates;
-            return grid[row, col];
+            return _grid[row, col];
         }
     }
 }

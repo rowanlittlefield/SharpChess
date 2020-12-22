@@ -4,20 +4,20 @@ namespace SharpChess
 {
     public class Game
     {
-        private Board board;
-        private Controller controller;
-        private PieceColor currentPlayer; 
+        private Board _board;
+        private Controller _controller;
+        private PieceColor _currentPlayer; 
 
         public Game()
         {
-            board = new Board();
-            controller = new Controller();
-            currentPlayer = PieceColor.White;
+            _board = new Board();
+            _controller = new Controller();
+            _currentPlayer = PieceColor.White;
         }
 
         public void Play()
         {
-            while (!board.GameOver())
+            while (!_board.GameOver())
             {
                 _playTurn();
             }
@@ -33,34 +33,34 @@ namespace SharpChess
                 isTurnOver = _playTick();
             }
 
-            currentPlayer = currentPlayer.GetOpposingColor();
+            _currentPlayer = _currentPlayer.GetOpposingColor();
         }
 
         private bool _playTick()
         {
             Console.Clear();
-            board.Render();
-            Console.WriteLine("Current Player: {0}", currentPlayer);
-            if (board.IsInCheck(currentPlayer))
+            _board.Render();
+            Console.WriteLine("Current Player: {0}", _currentPlayer);
+            if (_board.IsInCheck(_currentPlayer))
             {
                 Console.WriteLine("In Check");
             }
 
-            var userAction = controller.getUserAction();
+            var userAction = _controller.getUserAction();
 
             switch (userAction)
             {
                 case UserAction.Enter:
-                    return board.SelectCursorPosition(currentPlayer);
+                    return _board.SelectCursorPosition(_currentPlayer);
                 default:
-                    return board.MoveCursor(userAction);
+                    return _board.MoveCursor(userAction);
             }
         }
 
         private void _showGameOverMessage()
         {
             Console.Clear();
-            board.Render();
+            _board.Render();
             Console.WriteLine("Game Over!");
         }
     }
