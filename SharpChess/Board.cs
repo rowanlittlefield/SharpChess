@@ -44,13 +44,13 @@ namespace SharpChess
 
         public void Render()
         {
-            var _cursorPos = _cursor.getCoordinates();
+            var cursorPos = _cursor.getCoordinates();
             for (int i = 0; i < Board.GridLength; i += 1)
             {
                 for(int j = 0; j < Board.GridLength; j += 1)
                 {
                     var pos = (i, j);
-                    if (_cursorPos == pos)
+                    if (cursorPos == pos)
                     {
                         Console.BackgroundColor = ConsoleColor.Yellow;
                     }
