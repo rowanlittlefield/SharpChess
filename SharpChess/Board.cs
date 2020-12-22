@@ -17,7 +17,7 @@ namespace SharpChess
             pieceSelection = NullPieceSelection.GetInstance();
         }
 
-        public bool GameOver(PieceColor currentPlayer)
+        public bool GameOver()
         {
             return false;
         }
