@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace SharpChess
 {
@@ -16,9 +17,32 @@ namespace SharpChess
             pieceSelection = NullPieceSelection.GetInstance();
         }
 
-        public bool GameOver()
+        public bool GameOver(PieceColor currentPlayer)
         {
             return false;
+        }
+
+        public bool IsInCheck(PieceColor playerColor)
+        {
+            var kingPosition = (0, 0);
+            foreach (var piece in grid)
+            {
+                var isKing = piece is King && piece.Color == playerColor;
+                if (isKing)
+                {
+                    kingPosition = piece.Coordinates;
+                }
+            }
+
+            var opponentPieceQuery = from Piece piece in grid
+                                     let isNull = piece.Color == PieceColor.Null
+                                     let isOwn = piece.Color == playerColor
+                                     let isOpponentPiece = !isNull && !isOwn
+                                     where isOpponentPiece
+                                     select piece;
+
+            return opponentPieceQuery
+                .Any(piece => piece.GetMoveOptions(this).Contains(kingPosition));
         }
 
         public void Render()
@@ -76,15 +100,15 @@ namespace SharpChess
         {
             if (pieceSelection.moveOptions.Contains(cursor.getCoordinates()))
             {
-                MoveSelectedPiece(cursor.getCoordinates());
+                _moveSelectedPiece(cursor.getCoordinates());
                 return true;
             }
             
-            selectCursorPiece(currentPlayer);
+            _selectCursorPiece(currentPlayer);
             return false;
         }
 
-        private void selectCursorPiece(PieceColor currentPlayer)
+        private void _selectCursorPiece(PieceColor currentPlayer)
         {
             var coordinates = cursor.getCoordinates();
             var piece = grid[coordinates.Item1, coordinates.Item2];
@@ -100,7 +124,7 @@ namespace SharpChess
             }
         }
 
-        private void MoveSelectedPiece((int, int) coordinates)
+        private void _moveSelectedPiece((int, int) coordinates)
         {
             var (oldRow, oldCol) = pieceSelection.piece.Coordinates;
             var (row, col) = coordinates;

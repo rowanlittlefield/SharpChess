@@ -17,7 +17,7 @@ namespace SharpChess
 
         public void Play()
         {
-            while (!board.GameOver())
+            while (!board.GameOver(currentPlayer))
             {
                 _playTurn();
             }
@@ -52,6 +52,10 @@ namespace SharpChess
             Console.Clear();
             board.Render();
             Console.WriteLine("Current Player: {0}", currentPlayer);
+            if (board.IsInCheck(currentPlayer))
+            {
+                Console.WriteLine("In Check");
+            }
 
             var userAction = controller.getUserAction();
 
