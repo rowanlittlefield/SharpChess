@@ -28,23 +28,12 @@ namespace SharpChess
         private void _playTurn()
         {
             var isTurnOver = false;
-
             while (!isTurnOver)
             {
                 isTurnOver = _playTick();
             }
 
-            switch (currentPlayer)
-            {
-                case PieceColor.White:
-                    currentPlayer = PieceColor.Black;
-                    break;
-                case PieceColor.Black:
-                    currentPlayer = PieceColor.White;
-                    break;
-                default:
-                    throw new Exception("Invalid player");
-            }
+            currentPlayer = currentPlayer.GetOpposingColor();
         }
 
         private bool _playTick()

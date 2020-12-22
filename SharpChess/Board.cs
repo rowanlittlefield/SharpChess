@@ -38,8 +38,7 @@ namespace SharpChess
                              select piece;
 
             return pieceQuery
-                .Where(piece => piece.Color != PieceColor.Null)
-                .Where(piece => piece.Color != playerColor)
+                .Where(piece => piece.Color == playerColor.GetOpposingColor())
                 .Any(piece => piece.GetMoveOptions(this).Contains(kingPosition));
         }
 
