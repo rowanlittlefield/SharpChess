@@ -4,7 +4,7 @@ namespace SharpChess
 {
     public sealed class NullPieceSelection : PieceSelection
     {
-        private static NullPieceSelection instance = null;
+        private static NullPieceSelection _instance = null;
 
         private NullPieceSelection() : base(NullPiece.GetInstance(), new HashSet<(int, int)> {})
         {
@@ -12,12 +12,12 @@ namespace SharpChess
 
         public static NullPieceSelection GetInstance()
         {
-            if (instance == null)
+            if (_instance == null)
             {
-                instance = new NullPieceSelection();
+                _instance = new NullPieceSelection();
             }
 
-            return instance;
+            return _instance;
         }
     }
 }
