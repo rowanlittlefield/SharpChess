@@ -28,17 +28,14 @@ namespace SharpChess
             while (isPathClear)
             {
                 position = (position.Item1 + rowDiff, position.Item2 + colDiff);
-                var invalidMove = !board.IsOnBoard(position)
-                    || board.GetPiece(position).Color == piece.Color;
-                if (invalidMove)
-                {
-                    isPathClear = false;
-                }
-                else
+                var isValidMove = board.IsOnBoard(position)
+                    && board.GetPiece(position).Color != piece.Color;
+                if (isValidMove)
                 {
                     moveOptions.Add(position);
-                    isPathClear = board.GetPiece(position).IsNullPiece();
                 }
+ 
+                isPathClear = isValidMove && board.GetPiece(position).IsNullPiece();
             }
 
             return moveOptions;
