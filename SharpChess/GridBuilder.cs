@@ -31,7 +31,7 @@
             return grid;
         }
 
-        private  static Piece _parseToken(string pieceToken, (int, int) coordinates)
+        private static Piece _parseToken(string pieceToken, (int, int) coordinates)
         {
             var tokens = pieceToken.Split(":");
             var pieceClassToken = tokens[0];
