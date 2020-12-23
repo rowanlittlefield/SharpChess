@@ -62,21 +62,9 @@ namespace SharpChess
 
         public bool _isInCheckmate(PieceColor playerColor)
         {
-            var isInCheckmate = true;
-            var playerPieces = _gridToQuery()
-                .Where(piece => piece.Color == playerColor);
-
-            foreach (var piece in playerPieces)
-            {
-                var hasValidMoves = _filterValidMoves(piece).Count() > 0;
-                if (hasValidMoves)
-                {
-                    isInCheckmate = false;
-                    break;
-                }
-            }
-
-            return isInCheckmate;
+            return _gridToQuery()
+                .Where(piece => piece.Color == playerColor)
+                .All(piece => _filterValidMoves(piece).Count() == 0);
         }
 
         private HashSet<(int, int)> _filterValidMoves(Piece piece)
