@@ -26,5 +26,10 @@ namespace SharpChess
         {
             return this == NullPiece.GetInstance();
         }
+
+        public virtual Piece Clone()
+        {
+            return (Piece)MemberwiseClone();
+        }
     }
 }
