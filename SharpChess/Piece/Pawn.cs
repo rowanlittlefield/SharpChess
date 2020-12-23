@@ -29,6 +29,11 @@ namespace SharpChess
             _hasMoved = true;
         }
 
+        public override Piece Clone()
+        {
+            return new Pawn(Color, (Coordinates.Item1, Coordinates.Item2));
+        }
+
         public override HashSet<(int, int)> GetMoveOptions(Board board)
         {
             var (row, col) = Coordinates;

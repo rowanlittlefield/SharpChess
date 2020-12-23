@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace SharpChess
@@ -17,9 +18,68 @@ namespace SharpChess
             _pieceSelection = NullPieceSelection.GetInstance();
         }
 
-        public bool GameOver()
+        private Board(Piece[,] grid)
         {
-            return false;
+            _cursor = new Cursor(Board.GridLength);
+            _grid = _dupGrid(grid);
+            _pieceSelection = NullPieceSelection.GetInstance();
+        }
+
+        private Piece[,] _dupGrid(Piece[,] grid)
+        {
+            var gridDup = new Piece[GridLength,GridLength];
+            for (int row = 0; row < GridLength; row++)
+            {
+                for (int col = 0; col < GridLength; col++)
+                {
+                    var piece = grid[row, col];
+                    gridDup[row, col] = piece.Clone();
+                }
+            }
+
+            return gridDup;
+        }
+
+        public bool GameOver(PieceColor playerColor)
+        {
+            return _isInCheckmate(playerColor);
+        }
+
+        private bool _isInCheckmate(PieceColor playerColor)
+        {
+            var isInCheckmate = true;
+            var playerPieces = _gridToQuery()
+                .Where(piece => piece.Color == playerColor);
+
+            foreach (var piece in playerPieces)
+            {
+                var hasValidMoves = _filterValidMoves(piece).Count() > 0;
+                if (hasValidMoves)
+                {
+                    isInCheckmate = false;
+                    break;
+                }
+            }
+
+            return isInCheckmate;
+        }
+
+        private HashSet<(int, int)> _filterValidMoves(Piece piece)
+        {
+            var validMoveOptions = new HashSet<(int, int)> { };
+
+            foreach (var move in piece.GetMoveOptions(this))
+            {
+                var boardDup = new Board(_grid);
+                var pieceDup = boardDup.GetPiece(piece.Coordinates);
+                boardDup._movePiece(pieceDup, move);
+                if (!boardDup.IsInCheck(piece.Color))
+                {
+                    validMoveOptions.Add(move);
+                }
+            }
+
+            return validMoveOptions;
         }
 
         public bool IsInCheck(PieceColor playerColor)
@@ -34,10 +94,7 @@ namespace SharpChess
                 }
             }
 
-            var pieceQuery = from Piece piece in _grid
-                             select piece;
-
-            return pieceQuery
+            return _gridToQuery()
                 .Where(piece => piece.Color == playerColor.GetOpposingColor())
                 .Any(piece => piece.GetMoveOptions(this).Contains(kingPosition));
         }
@@ -112,8 +169,8 @@ namespace SharpChess
             var isCurrentPlayerPiece = piece.Color == currentPlayer;
             if (isCurrentPlayerPiece)
             {
-                var moveOptions = piece.GetMoveOptions(this);
-                _pieceSelection = new PieceSelection(piece, moveOptions);
+                var validMoveOptions = _filterValidMoves(piece);
+                _pieceSelection = new PieceSelection(piece, validMoveOptions);
             }
             else
             {
@@ -123,12 +180,17 @@ namespace SharpChess
 
         private void _moveSelectedPiece((int, int) coordinates)
         {
-            var (oldRow, oldCol) = _pieceSelection.piece.Coordinates;
-            var (row, col) = coordinates;
-            _pieceSelection.piece.Move(coordinates);
-            _grid[row, col] = _pieceSelection.piece;
-            _grid[oldRow, oldCol] = NullPiece.GetInstance();
+            _movePiece(_pieceSelection.piece, coordinates);
             _pieceSelection = NullPieceSelection.GetInstance();
+        }
+
+        private void _movePiece(Piece piece, (int, int) coordinates)
+        {
+            var (oldRow, oldCol) = piece.Coordinates;
+            var (row, col) = coordinates;
+            piece.Move(coordinates);
+            _grid[row, col] = piece;
+            _grid[oldRow, oldCol] = NullPiece.GetInstance();
         }
 
         public bool IsOnBoard((int, int) position)
@@ -144,6 +206,11 @@ namespace SharpChess
         {
             var (row, col) = coordinates;
             return _grid[row, col];
+        }
+
+        private IEnumerable<Piece> _gridToQuery()
+        {
+            return from Piece piece in _grid select piece;
         }
     }
 }

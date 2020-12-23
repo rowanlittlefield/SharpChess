@@ -39,5 +39,10 @@ namespace SharpChess
             }
             return moveOptions;
         }
+
+        public override Piece Clone()
+        {
+            return new Knight(Color, (Coordinates.Item1, Coordinates.Item2));
+        }
     }
 }

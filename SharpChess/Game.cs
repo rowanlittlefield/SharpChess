@@ -17,7 +17,7 @@ namespace SharpChess
 
         public void Play()
         {
-            while (!_board.GameOver())
+            while (!_board.GameOver(_currentPlayer))
             {
                 _playTurn();
             }

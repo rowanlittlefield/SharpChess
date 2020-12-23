@@ -29,5 +29,10 @@ namespace SharpChess
         {
             return new HashSet<(int, int)> { };
         }
+
+        public override Piece Clone()
+        {
+            return NullPiece.GetInstance();
+        }
     }
 }
