@@ -45,7 +45,22 @@ namespace SharpChess
             return _isInCheckmate(playerColor);
         }
 
-        private bool _isInCheckmate(PieceColor playerColor)
+        public PieceColor GetWinner()
+        {
+            if (_isInCheckmate(PieceColor.Black))
+            {
+                return PieceColor.White;
+            }
+
+            if (_isInCheckmate(PieceColor.White))
+            {
+                return PieceColor.Black;
+            }
+
+            return PieceColor.Null;
+        }
+
+        public bool _isInCheckmate(PieceColor playerColor)
         {
             var isInCheckmate = true;
             var playerPieces = _gridToQuery()

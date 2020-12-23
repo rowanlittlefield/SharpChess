@@ -62,6 +62,17 @@ namespace SharpChess
             Console.Clear();
             _board.Render();
             Console.WriteLine("Game Over!");
+
+            var winner = _board.GetWinner();
+            switch (winner)
+            {
+                case PieceColor.Null:
+                    Console.WriteLine("Draw!");
+                    break;
+                default:
+                    Console.WriteLine("{0} wins!", winner);
+                    break;
+            }
         }
     }
 }
