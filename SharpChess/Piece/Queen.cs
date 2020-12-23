@@ -28,10 +28,5 @@ namespace SharpChess
         {
             return SlidingPathFinder.GetMoveOptions(board, this, MOVE_DIFFS);
         }
-
-        public override Piece Clone()
-        {
-            return new Queen(Color, Coordinates);
-        }
     }
 }
