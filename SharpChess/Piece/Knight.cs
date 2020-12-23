@@ -42,7 +42,7 @@ namespace SharpChess
 
         public override Piece Clone()
         {
-            return new Knight(Color, (Coordinates.Item1, Coordinates.Item2));
+            return new Knight(Color, Coordinates);
         }
     }
 }

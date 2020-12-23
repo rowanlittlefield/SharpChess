@@ -27,7 +27,7 @@ namespace SharpChess
 
         public override Piece Clone()
         {
-            return new Rook(Color, (Coordinates.Item1, Coordinates.Item2));
+            return new Rook(Color, Coordinates);
         }
     }
 }

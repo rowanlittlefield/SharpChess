@@ -31,7 +31,7 @@ namespace SharpChess
 
         public override Piece Clone()
         {
-            return new Queen(Color, (Coordinates.Item1, Coordinates.Item2));
+            return new Queen(Color, Coordinates);
         }
     }
 }

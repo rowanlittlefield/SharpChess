@@ -27,7 +27,7 @@ namespace SharpChess
 
         public override Piece Clone()
         {
-            return new Bishop(Color, (Coordinates.Item1, Coordinates.Item2));
+            return new Bishop(Color, Coordinates);
         }
     }
 }

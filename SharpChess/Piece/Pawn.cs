@@ -31,7 +31,7 @@ namespace SharpChess
 
         public override Piece Clone()
         {
-            return new Pawn(Color, (Coordinates.Item1, Coordinates.Item2));
+            return new Pawn(Color, Coordinates);
         }
 
         public override HashSet<(int, int)> GetMoveOptions(Board board)
