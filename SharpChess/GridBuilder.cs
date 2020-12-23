@@ -1,13 +1,10 @@
 ﻿namespace SharpChess
 {
-    public class GridBuilder
+    public static class GridBuilder
     {
         public static readonly int GridLength = SharedConstants.GridLength;
-        public GridBuilder()
-        {
-        }
 
-        public Piece[,] CreateGrid()
+        public static Piece[,] CreateGrid()
         {
             var grid = new Piece[GridLength, GridLength];
             var path = "/Users/rowanlittlefield/Projects/SharpChess/SharpChess/default-board.txt";
@@ -34,7 +31,7 @@
             return grid;
         }
 
-        private Piece _parseToken(string pieceToken, (int, int) coordinates)
+        private  static Piece _parseToken(string pieceToken, (int, int) coordinates)
         {
             var tokens = pieceToken.Split(":");
             var pieceClassToken = tokens[0];
@@ -70,6 +67,21 @@
                 default:
                     return NullPiece.GetInstance();
             }
+        }
+
+        public static Piece[,] CloneGrid(Piece[,] grid)
+        {
+            var gridDup = new Piece[GridLength, GridLength];
+            for (int row = 0; row < GridLength; row++)
+            {
+                for (int col = 0; col < GridLength; col++)
+                {
+                    var piece = grid[row, col];
+                    gridDup[row, col] = piece.Clone();
+                }
+            }
+
+            return gridDup;
         }
     }
 }

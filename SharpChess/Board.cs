@@ -14,30 +14,15 @@ namespace SharpChess
         public Board()
         {
             _cursor = new Cursor(Board.GridLength);
-            _grid = new GridBuilder().CreateGrid();
+            _grid = GridBuilder.CreateGrid();
             _pieceSelection = NullPieceSelection.GetInstance();
         }
 
         private Board(Piece[,] grid)
         {
             _cursor = new Cursor(Board.GridLength);
-            _grid = _dupGrid(grid);
+            _grid = GridBuilder.CloneGrid(grid);
             _pieceSelection = NullPieceSelection.GetInstance();
-        }
-
-        private Piece[,] _dupGrid(Piece[,] grid)
-        {
-            var gridDup = new Piece[GridLength,GridLength];
-            for (int row = 0; row < GridLength; row++)
-            {
-                for (int col = 0; col < GridLength; col++)
-                {
-                    var piece = grid[row, col];
-                    gridDup[row, col] = piece.Clone();
-                }
-            }
-
-            return gridDup;
         }
 
         public bool GameOver(PieceColor playerColor)
