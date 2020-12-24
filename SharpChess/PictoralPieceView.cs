@@ -24,7 +24,7 @@ namespace SharpChess
         {
             if (isCursorPos)
             {
-                Console.BackgroundColor = ConsoleColor.Yellow;
+                Console.BackgroundColor = ConsoleColor.DarkYellow;
             }
             else if (pieceSelection.moveOptions.Contains(pos))
             {
@@ -49,7 +49,9 @@ namespace SharpChess
                 Console.ForegroundColor = ConsoleColor.Gray;
             }
 
+            Console.Write(" ");
             _renderPiece(piece);
+            Console.Write(" ");
             Console.ForegroundColor = ConsoleColor.White;
             Console.ResetColor();
         }
