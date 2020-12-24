@@ -1,9 +1,8 @@
-﻿using System;
-namespace SharpChess
+﻿namespace SharpChess
 {
-    public abstract class PieceRenderer
+    public abstract class PieceView
     {
-        public PieceRenderer()
+        public PieceView()
         {
         }
 

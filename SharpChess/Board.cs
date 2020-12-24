@@ -9,14 +9,14 @@ namespace SharpChess
         private Cursor _cursor;
         private Piece[,] _grid;
         private PieceSelection _pieceSelection;
-        private BoardRenderer _renderer;
+        private BoardView _renderer;
 
         public Board()
         {
             _cursor = new Cursor(Board.GridLength);
             _grid = GridBuilder.CreateGrid();
             _pieceSelection = NullPieceSelection.GetInstance();
-            _renderer = new BoardRenderer();
+            _renderer = new BoardView();
         }
 
         private Board(Piece[,] grid)
@@ -24,7 +24,7 @@ namespace SharpChess
             _cursor = new Cursor(Board.GridLength);
             _grid = GridBuilder.CloneGrid(grid);
             _pieceSelection = NullPieceSelection.GetInstance();
-            _renderer = new BoardRenderer();
+            _renderer = new BoardView();
         }
 
         public bool GameOver(PieceColor playerColor)

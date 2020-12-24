@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 namespace SharpChess
 {
-    public class DefaultPieceRenderer : PieceRenderer
+    public class DefaultPieceView : PieceView
     {
         private static Dictionary<Type, char> PIECE_MAP = new Dictionary<Type, char>
         {
@@ -15,7 +15,7 @@ namespace SharpChess
             { typeof(NullPiece), ' ' },
         };
 
-        public DefaultPieceRenderer()
+        public DefaultPieceView()
         {
         }
 
@@ -61,7 +61,7 @@ namespace SharpChess
 
         private void _renderPiece(Piece piece)
         {
-            var pieceCharacter = DefaultPieceRenderer.PIECE_MAP.GetValueOrDefault(piece.GetType());
+            var pieceCharacter = DefaultPieceView.PIECE_MAP.GetValueOrDefault(piece.GetType());
             Console.Write(pieceCharacter);
         }
     }

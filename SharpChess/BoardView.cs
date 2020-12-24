@@ -1,21 +1,21 @@
 ﻿using System;
 namespace SharpChess
 {
-    public class BoardRenderer
+    public class BoardView
     {
         public static readonly int GridLength = SharedConstants.GridLength;
-        private PieceRenderer[] _themes = new PieceRenderer[]
+        private PieceView[] _themes = new PieceView[]
         {
-            new DefaultPieceRenderer(),
-            new PictoralPieceRenderer(),
+            new DefaultPieceView(),
+            new PictoralPieceView(),
         };
-        private int _pieceRendererIndex;
-        private PieceRenderer _pieceRenderer;
+        private int _pieceViewIndex;
+        private PieceView _pieceView;
 
-        public BoardRenderer()
+        public BoardView()
         {
-            _pieceRendererIndex = 0;
-            _pieceRenderer = _themes[_pieceRendererIndex];
+            _pieceViewIndex = 0;
+            _pieceView = _themes[_pieceViewIndex];
         }
 
         public void Render(Board board, (int, int) cursorPos, PieceSelection pieceSelection)
@@ -27,7 +27,7 @@ namespace SharpChess
                     var pos = (i, j);
                     var piece = board.GetPiece(pos);
                     var isCursorPos = pos == cursorPos;
-                    _pieceRenderer.Render(piece, isCursorPos, pieceSelection, pos);
+                    _pieceView.Render(piece, isCursorPos, pieceSelection, pos);
                 }
 
                 Console.WriteLine("");
@@ -36,8 +36,8 @@ namespace SharpChess
 
         public void ToggleTheme()
         {
-            _pieceRendererIndex = (_pieceRendererIndex + 1) % _themes.Length;
-            _pieceRenderer = _themes[_pieceRendererIndex];
+            _pieceViewIndex = (_pieceViewIndex + 1) % _themes.Length;
+            _pieceView = _themes[_pieceViewIndex];
         }
     }
 }
