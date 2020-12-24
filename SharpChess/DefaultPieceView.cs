@@ -23,7 +23,7 @@ namespace SharpChess
         {
             if (isCursorPos)
             {
-                Console.BackgroundColor = ConsoleColor.Yellow;
+                Console.BackgroundColor = ConsoleColor.DarkYellow;
             }
             else if (pieceSelection.moveOptions.Contains(pos))
             {
@@ -33,8 +33,12 @@ namespace SharpChess
             {
                 Console.BackgroundColor = ConsoleColor.DarkMagenta;
             }
+            else if (_isColoredBackgroundPosition(pos))
+            {
+                Console.BackgroundColor = ConsoleColor.DarkMagenta;
+            }
 
-            Console.Write("[");
+            Console.Write(" ");
 
             if (piece.Color == PieceColor.Black)
             {
@@ -48,7 +52,7 @@ namespace SharpChess
 
             _renderPiece(piece);
             Console.ForegroundColor = ConsoleColor.White;
-            Console.Write("]");
+            Console.Write(" ");
             Console.ResetColor();
         }
 
