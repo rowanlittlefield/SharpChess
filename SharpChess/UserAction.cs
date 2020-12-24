@@ -7,6 +7,7 @@
         Down,
         Left,
         Enter,
+        ToggleTheme,
         Null,
     }
 }

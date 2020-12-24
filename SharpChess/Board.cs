@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace SharpChess
@@ -10,12 +9,14 @@ namespace SharpChess
         private Cursor _cursor;
         private Piece[,] _grid;
         private PieceSelection _pieceSelection;
+        private BoardRenderer _renderer;
 
         public Board()
         {
             _cursor = new Cursor(Board.GridLength);
             _grid = GridBuilder.CreateGrid();
             _pieceSelection = NullPieceSelection.GetInstance();
+            _renderer = new BoardRenderer();
         }
 
         private Board(Piece[,] grid)
@@ -23,6 +24,7 @@ namespace SharpChess
             _cursor = new Cursor(Board.GridLength);
             _grid = GridBuilder.CloneGrid(grid);
             _pieceSelection = NullPieceSelection.GetInstance();
+            _renderer = new BoardRenderer();
         }
 
         public bool GameOver(PieceColor playerColor)
@@ -89,47 +91,13 @@ namespace SharpChess
 
         public void Render()
         {
-            var cursorPos = _cursor.getCoordinates();
-            for (int i = 0; i < Board.GridLength; i += 1)
-            {
-                for(int j = 0; j < Board.GridLength; j += 1)
-                {
-                    var pos = (i, j);
-                    if (cursorPos == pos)
-                    {
-                        Console.BackgroundColor = ConsoleColor.Yellow;
-                    }
-                    else if (_pieceSelection.moveOptions.Contains(pos))
-                    {
-                        Console.BackgroundColor = ConsoleColor.Green;
-                    }
-                    else if (_pieceSelection.piece.Coordinates == pos)
-                    {
-                        Console.BackgroundColor = ConsoleColor.DarkMagenta;
-                    }
+            _renderer.Render(this, _cursor.getCoordinates(), _pieceSelection);
+        }
 
-                    Console.Write("[");
-
-                    var piece = _grid[i, j];
-                    if (piece.Color == PieceColor.Black)
-                    {
-                        Console.ForegroundColor = ConsoleColor.DarkCyan;
-                    }
-
-                    if (piece.Color == PieceColor.White)
-                    {
-                        Console.ForegroundColor = ConsoleColor.Gray;
-                    }
-                    Console.Write(piece.Render());
-                    Console.ForegroundColor = ConsoleColor.White;
-
-                    Console.Write("]");
-
-                    Console.ResetColor();
-                }
-
-                Console.WriteLine("");
-            }
+        public bool ToggleTheme()
+        {
+            _renderer.ToggleTheme();
+            return false;
         }
 
         public bool MoveCursor(UserAction userAction)

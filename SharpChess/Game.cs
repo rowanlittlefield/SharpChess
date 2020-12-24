@@ -52,6 +52,8 @@ namespace SharpChess
             {
                 case UserAction.Enter:
                     return _board.SelectCursorPosition(_currentPlayer);
+                case UserAction.ToggleTheme:
+                    return _board.ToggleTheme();
                 default:
                     return _board.MoveCursor(userAction);
             }
