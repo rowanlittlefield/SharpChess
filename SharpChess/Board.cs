@@ -10,6 +10,7 @@ namespace SharpChess
         private Piece[,] _grid;
         public PieceSelection PieceSelection { get; private set; }
         private BoardView _view;
+        public bool IsFlipped { get; private set; }
 
         public Board()
         {
@@ -17,6 +18,7 @@ namespace SharpChess
             _grid = GridBuilder.CreateGrid();
             PieceSelection = NullPieceSelection.GetInstance();
             _view = new BoardView();
+            IsFlipped = false;
         }
 
         private Board(Piece[,] grid)
@@ -25,6 +27,7 @@ namespace SharpChess
             _grid = GridBuilder.CloneGrid(grid);
             PieceSelection = NullPieceSelection.GetInstance();
             _view = new BoardView();
+            IsFlipped = false;
         }
 
         public bool GameOver(PieceColor playerColor)
@@ -100,6 +103,12 @@ namespace SharpChess
             return false;
         }
 
+        public bool FlipBoard()
+        {
+            IsFlipped = !IsFlipped;
+            return false;
+        }
+
         public (int, int) GetCursorCoordinates()
         {
             return _cursor.getCoordinates();
@@ -107,7 +116,8 @@ namespace SharpChess
 
         public bool MoveCursor(UserAction userAction)
         {
-            _cursor.Move(userAction);
+            var direction = IsFlipped ? userAction.FlipVertically() : userAction;
+            _cursor.Move(direction);
             return false;
         }
 
