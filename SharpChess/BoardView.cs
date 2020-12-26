@@ -20,13 +20,11 @@ namespace SharpChess
 
         public void Render(Board board)
         {
-            for (int i = 0; i < Board.GridLength; i += 1)
+            for (int row = 0; row < Board.GridLength; row += 1)
             {
-                for (int j = 0; j < Board.GridLength; j += 1)
+                for (int col = 0; col < Board.GridLength; col += 1)
                 {
-                    var pos = (i, j);
-                    var piece = board.GetPiece(pos);
-                    var isCursorPos = pos == board.GetCursorCoordinates();
+                    var pos = (row, col);
                     _pieceView.Render(board, pos);
                 }
 
