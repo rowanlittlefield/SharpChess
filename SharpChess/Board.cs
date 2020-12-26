@@ -97,16 +97,16 @@ namespace SharpChess
             _view.Render(this);
         }
 
-        public bool ToggleTheme()
+        public BoardMemento ToggleTheme()
         {
             _view.ToggleTheme();
-            return false;
+            return NullBoardMemento.GetInstance();
         }
 
-        public bool FlipBoard()
+        public BoardMemento FlipBoard()
         {
             IsFlipped = !IsFlipped;
-            return false;
+            return NullBoardMemento.GetInstance();
         }
 
         public (int, int) GetCursorCoordinates()
@@ -114,23 +114,23 @@ namespace SharpChess
             return _cursor.getCoordinates();
         }
 
-        public bool MoveCursor(UserAction userAction)
+        public BoardMemento MoveCursor(UserAction userAction)
         {
             var direction = IsFlipped ? userAction.FlipVertically() : userAction;
             _cursor.Move(direction);
-            return false;
+            return NullBoardMemento.GetInstance();
         }
 
-        public bool SelectCursorPosition(PieceColor currentPlayer)
+        public BoardMemento SelectCursorPosition(PieceColor currentPlayer)
         {
             if (PieceSelection.moveOptions.Contains(_cursor.getCoordinates()))
             {
                 _moveSelectedPiece(_cursor.getCoordinates());
-                return true;
+                return new MovePieceBoardMemento();
             }
             
             _selectCursorPiece(currentPlayer);
-            return false;
+            return NullBoardMemento.GetInstance();
         }
 
         private void _selectCursorPiece(PieceColor currentPlayer)

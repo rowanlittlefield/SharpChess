@@ -6,13 +6,15 @@ namespace SharpChess
     {
         private Board _board;
         private Controller _controller;
-        private PieceColor _currentPlayer; 
+        private PieceColor _currentPlayer;
+        private History _history;
 
         public Game()
         {
             _board = new Board();
             _controller = new Controller();
             _currentPlayer = PieceColor.White;
+            _history = new History();
         }
 
         public void Play()
@@ -27,16 +29,17 @@ namespace SharpChess
 
         private void _playTurn()
         {
-            var isTurnOver = false;
-            while (!isTurnOver)
+            BoardMemento boardMemento = NullBoardMemento.GetInstance();
+            while (!boardMemento.IsTurnOver)
             {
-                isTurnOver = _playTick();
+                boardMemento = _playTick();
             }
 
+            _history.Push(boardMemento);
             _currentPlayer = _currentPlayer.GetOpposingColor();
         }
 
-        private bool _playTick()
+        private BoardMemento _playTick()
         {
             Console.Clear();
             _board.Render();
