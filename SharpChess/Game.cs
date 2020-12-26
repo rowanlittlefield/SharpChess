@@ -48,6 +48,7 @@ namespace SharpChess
         {
             Console.Clear();
             _board.Render();
+            Console.WriteLine("Turn: {0}", _history.NumberOfElapsedTurns() + 1);
             Console.WriteLine("Current Player: {0}", _currentPlayer);
             if (_board.IsInCheck(_currentPlayer))
             {

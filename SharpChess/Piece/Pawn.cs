@@ -11,11 +11,12 @@ namespace SharpChess
             { PieceColor.White, -1 },
         };
         private readonly int _columnDirection;
-        private bool _hasMoved;
+        private int _numberOfMoves;
+
         public Pawn(PieceColor color, (int, int) coordinates) : base(color, coordinates)
         {
             _columnDirection = Pawn._columnDirectionMap.GetValueOrDefault(Color);
-            _hasMoved = false;
+            _numberOfMoves = 0;
         }
 
         public override string Render()
@@ -26,7 +27,13 @@ namespace SharpChess
         public override void Move((int, int) coordinates)
         {
             base.Move(coordinates);
-            _hasMoved = true;
+            _numberOfMoves += 1;
+        }
+
+        public override void UndoMove ((int, int) coordinates)
+        {
+            base.Move(coordinates);
+            _numberOfMoves -= 1;
         }
 
         public override HashSet<(int, int)> GetMoveOptions(Board board)
@@ -74,7 +81,7 @@ namespace SharpChess
             var pieceTwoAway = board.GetPiece((row + (2 * _columnDirection), col));
             return pieceInFront.IsNullPiece()
                 && pieceTwoAway.IsNullPiece()
-                && !_hasMoved;
+                && !_hasMoved();
         }
 
         private bool _canPerformSingleMove(Board board)
@@ -114,6 +121,11 @@ namespace SharpChess
 
             var rightDiagonalPiece = board.GetPiece((row + _columnDirection, col + 1));
             return !rightDiagonalPiece.IsNullPiece() && rightDiagonalPiece.Color != Color;
+        }
+
+        private bool _hasMoved()
+        {
+            return _numberOfMoves > 0;
         }
     }
 }
