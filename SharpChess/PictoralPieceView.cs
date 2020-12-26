@@ -20,17 +20,19 @@ namespace SharpChess
         {
         }
 
-        public override void Render(Piece piece, bool isCursorPos, PieceSelection pieceSelection, (int, int) pos)
+        public override void Render(Board board, (int, int) pos)
         {
+            var piece = board.GetPiece(pos);
+            var isCursorPos = board.GetCursorCoordinates() == pos;
             if (isCursorPos)
             {
                 Console.BackgroundColor = ConsoleColor.DarkYellow;
             }
-            else if (pieceSelection.moveOptions.Contains(pos))
+            else if (board.PieceSelection.moveOptions.Contains(pos))
             {
                 Console.BackgroundColor = ConsoleColor.Green;
             }
-            else if (pieceSelection.piece.Coordinates == pos)
+            else if (board.PieceSelection.piece.Coordinates == pos)
             {
                 Console.BackgroundColor = ConsoleColor.DarkMagenta;
             }

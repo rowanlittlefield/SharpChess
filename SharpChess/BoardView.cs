@@ -18,7 +18,7 @@ namespace SharpChess
             _pieceView = _themes[_pieceViewIndex];
         }
 
-        public void Render(Board board, (int, int) cursorPos, PieceSelection pieceSelection)
+        public void Render(Board board)
         {
             for (int i = 0; i < Board.GridLength; i += 1)
             {
@@ -26,8 +26,8 @@ namespace SharpChess
                 {
                     var pos = (i, j);
                     var piece = board.GetPiece(pos);
-                    var isCursorPos = pos == cursorPos;
-                    _pieceView.Render(piece, isCursorPos, pieceSelection, pos);
+                    var isCursorPos = pos == board.GetCursorCoordinates();
+                    _pieceView.Render(board, pos);
                 }
 
                 Console.WriteLine("");
