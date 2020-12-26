@@ -23,9 +23,9 @@ namespace SharpChess
             var isFlipped = board.IsFlipped;
             var initialRowIndex = isFlipped ? GridLength - 1 : 0;
             var rowIncrementerIndex = isFlipped ? -1 : 1;
-            for (int row = initialRowIndex; row < Board.GridLength && row >= 0; row += (rowIncrementerIndex) * 1)
+            for (int row = initialRowIndex; row < GridLength && row >= 0; row += (rowIncrementerIndex) * 1)
             {
-                for (int col = 0; col < Board.GridLength; col += 1)
+                for (int col = 0; col < GridLength; col += 1)
                 {
                     var pos = (row, col);
                     _pieceView.Render(board, pos);
