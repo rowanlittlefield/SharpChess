@@ -35,7 +35,12 @@ namespace SharpChess
                 boardMemento = _playTick();
             }
 
-            _history.Push(boardMemento);
+            if (boardMemento is MovePieceBoardMemento)
+            {
+                var movePieceMomento = (MovePieceBoardMemento)boardMemento;
+                _history.Push(movePieceMomento);
+            }
+
             _currentPlayer = _currentPlayer.GetOpposingColor();
         }
 
@@ -59,6 +64,10 @@ namespace SharpChess
                     return _board.ToggleTheme();
                 case UserAction.FlipBoard:
                     return _board.FlipBoard();
+                case UserAction.Undo:
+                    return _history.Back(_board);
+                case UserAction.Redo:
+                    return _history.Forward(_board);
                 default:
                     return _board.MoveCursor(userAction);
             }

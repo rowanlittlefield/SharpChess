@@ -125,8 +125,11 @@ namespace SharpChess
         {
             if (PieceSelection.moveOptions.Contains(_cursor.getCoordinates()))
             {
+                var start = PieceSelection.piece.Coordinates;
+                var end = _cursor.getCoordinates();
+                var piece = PieceSelection.piece;
                 _moveSelectedPiece(_cursor.getCoordinates());
-                return new MovePieceBoardMemento();
+                return new MovePieceBoardMemento(piece, start, end);
             }
             
             _selectCursorPiece(currentPlayer);
@@ -182,6 +185,18 @@ namespace SharpChess
         private IEnumerable<Piece> _gridToQuery()
         {
             return from Piece piece in _grid select piece;
+        }
+
+        public void RevertSetSpace(MovePieceBoardMemento memento)
+        {
+            _cursor.SetCoordinates(memento.EndCoordinates);
+            _movePiece(memento.Piece, memento.StartCoordinates);
+        }
+
+        public void RedoSetSpace(MovePieceBoardMemento memento)
+        {
+            _cursor.SetCoordinates(memento.EndCoordinates);
+            _movePiece(memento.Piece, memento.EndCoordinates);
         }
     }
 }

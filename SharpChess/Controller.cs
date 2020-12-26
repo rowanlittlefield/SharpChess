@@ -38,6 +38,10 @@ namespace SharpChess
                     return UserAction.ToggleTheme;
                 case 'f':
                     return UserAction.FlipBoard;
+                case 'u':
+                    return UserAction.Undo;
+                case 'r':
+                    return UserAction.Redo;
                 default:
                     return UserAction.Null;
             }
