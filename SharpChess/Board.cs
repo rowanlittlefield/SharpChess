@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace SharpChess
@@ -9,20 +8,23 @@ namespace SharpChess
         public static readonly int GridLength = SharedConstants.GridLength;
         private Cursor _cursor;
         private Piece[,] _grid;
-        private PieceSelection _pieceSelection;
+        public PieceSelection PieceSelection { get; private set; }
+        private BoardView _view;
 
         public Board()
         {
             _cursor = new Cursor(Board.GridLength);
             _grid = GridBuilder.CreateGrid();
-            _pieceSelection = NullPieceSelection.GetInstance();
+            PieceSelection = NullPieceSelection.GetInstance();
+            _view = new BoardView();
         }
 
         private Board(Piece[,] grid)
         {
             _cursor = new Cursor(Board.GridLength);
             _grid = GridBuilder.CloneGrid(grid);
-            _pieceSelection = NullPieceSelection.GetInstance();
+            PieceSelection = NullPieceSelection.GetInstance();
+            _view = new BoardView();
         }
 
         public bool GameOver(PieceColor playerColor)
@@ -89,47 +91,18 @@ namespace SharpChess
 
         public void Render()
         {
-            var cursorPos = _cursor.getCoordinates();
-            for (int i = 0; i < Board.GridLength; i += 1)
-            {
-                for(int j = 0; j < Board.GridLength; j += 1)
-                {
-                    var pos = (i, j);
-                    if (cursorPos == pos)
-                    {
-                        Console.BackgroundColor = ConsoleColor.Yellow;
-                    }
-                    else if (_pieceSelection.moveOptions.Contains(pos))
-                    {
-                        Console.BackgroundColor = ConsoleColor.Green;
-                    }
-                    else if (_pieceSelection.piece.Coordinates == pos)
-                    {
-                        Console.BackgroundColor = ConsoleColor.DarkMagenta;
-                    }
+            _view.Render(this);
+        }
 
-                    Console.Write("[");
+        public bool ToggleTheme()
+        {
+            _view.ToggleTheme();
+            return false;
+        }
 
-                    var piece = _grid[i, j];
-                    if (piece.Color == PieceColor.Black)
-                    {
-                        Console.ForegroundColor = ConsoleColor.DarkCyan;
-                    }
-
-                    if (piece.Color == PieceColor.White)
-                    {
-                        Console.ForegroundColor = ConsoleColor.Gray;
-                    }
-                    Console.Write(piece.Render());
-                    Console.ForegroundColor = ConsoleColor.White;
-
-                    Console.Write("]");
-
-                    Console.ResetColor();
-                }
-
-                Console.WriteLine("");
-            }
+        public (int, int) GetCursorCoordinates()
+        {
+            return _cursor.getCoordinates();
         }
 
         public bool MoveCursor(UserAction userAction)
@@ -140,7 +113,7 @@ namespace SharpChess
 
         public bool SelectCursorPosition(PieceColor currentPlayer)
         {
-            if (_pieceSelection.moveOptions.Contains(_cursor.getCoordinates()))
+            if (PieceSelection.moveOptions.Contains(_cursor.getCoordinates()))
             {
                 _moveSelectedPiece(_cursor.getCoordinates());
                 return true;
@@ -158,18 +131,18 @@ namespace SharpChess
             if (isCurrentPlayerPiece)
             {
                 var validMoveOptions = _filterValidMoves(piece);
-                _pieceSelection = new PieceSelection(piece, validMoveOptions);
+                PieceSelection = new PieceSelection(piece, validMoveOptions);
             }
             else
             {
-                _pieceSelection = NullPieceSelection.GetInstance();
+                PieceSelection = NullPieceSelection.GetInstance();
             }
         }
 
         private void _moveSelectedPiece((int, int) coordinates)
         {
-            _movePiece(_pieceSelection.piece, coordinates);
-            _pieceSelection = NullPieceSelection.GetInstance();
+            _movePiece(PieceSelection.piece, coordinates);
+            PieceSelection = NullPieceSelection.GetInstance();
         }
 
         private void _movePiece(Piece piece, (int, int) coordinates)
