@@ -1,16 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace SharpChess
 {
     public class History
     {
-        private List<MovePieceBoardMemento> _pastMementos;
-        private List<MovePieceBoardMemento> _futureMementos;
+        private List<BoardMemento> _pastMementos;
+        private List<BoardMemento> _futureMementos;
 
         public History()
         {
-            _pastMementos = new List<MovePieceBoardMemento>();
-            _futureMementos = new List<MovePieceBoardMemento>();
+            _pastMementos = new List<BoardMemento>();
+            _futureMementos = new List<BoardMemento>();
         }
 
         public int NumberOfElapsedTurns()
@@ -18,38 +19,44 @@ namespace SharpChess
             return _pastMementos.Count;
         }
 
-        public void Push(MovePieceBoardMemento memento)
+        public void Push(BoardMemento memento)
         {
             _pastMementos.Add(memento);
             _futureMementos.Clear();
         }
 
-        public BoardMemento Back(Board board)
+        public void Back(Board board)
         {
-            if (_pastMementos.Count == 0)
+            if (_pastMementos.Count > 0)
             {
-                return NullBoardMemento.GetInstance();
+                var lastItem = _pastMementos[_pastMementos.Count - 1];
+                _pastMementos.RemoveAt(_pastMementos.Count - 1);
+                board.RevertSetSpace(lastItem);
+                _futureMementos.Add(lastItem);
+                OnTimeTraveled();
             }
-
-            var lastItem = _pastMementos[_pastMementos.Count - 1];
-            _pastMementos.RemoveAt(_pastMementos.Count - 1);
-            var memento = board.RevertSetSpace(lastItem);
-            _futureMementos.Add(lastItem);
-            return memento;
         }
 
-        public BoardMemento Forward(Board board)
+        public void Forward(Board board)
         {
-            if (_futureMementos.Count == 0)
+            if (_futureMementos.Count > 0)
             {
-                return NullBoardMemento.GetInstance();
+                var lastItem = _futureMementos[_futureMementos.Count - 1];
+                _futureMementos.RemoveAt(_futureMementos.Count - 1);
+                board.RedoSetSpace(lastItem);
+                _pastMementos.Add(lastItem);
+                OnTimeTraveled();
             }
+        }
 
-            var lastItem = _futureMementos[_futureMementos.Count - 1];
-            _futureMementos.RemoveAt(_futureMementos.Count - 1);
-            var memento = board.RedoSetSpace(lastItem);
-            _pastMementos.Add(lastItem);
-            return memento;
+        public event EventHandler<EventArgs> TimeTraveled;
+
+        protected virtual void OnTimeTraveled()
+        {
+            if (TimeTraveled != null)
+            {
+                TimeTraveled(this, EventArgs.Empty);
+            }
         }
     }
 }

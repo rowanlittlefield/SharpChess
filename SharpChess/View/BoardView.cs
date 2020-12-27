@@ -1,7 +1,7 @@
 ﻿using System;
 namespace SharpChess
 {
-    public class BoardView
+    public class BoardView : View
     {
         public static readonly int GridLength = SharedConstants.GridLength;
         private PieceView[] _themes = new PieceView[]
@@ -9,17 +9,20 @@ namespace SharpChess
             new DefaultPieceView(),
             new PictoralPieceView(),
         };
+        private Board _board;
         private int _pieceViewIndex;
         private PieceView _pieceView;
 
-        public BoardView()
+        public BoardView(Board board)
         {
+            _board = board;
             _pieceViewIndex = 0;
             _pieceView = _themes[_pieceViewIndex];
         }
 
-        public void Render(Board board)
+        public override void Render()
         {
+            var board = _board;
             var isFlipped = board.IsFlipped;
             var initialRowIndex = isFlipped ? GridLength - 1 : 0;
             var rowIncrementerIndex = isFlipped ? -1 : 1;
