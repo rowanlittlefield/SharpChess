@@ -5,31 +5,31 @@ namespace SharpChess
 {
     public class GameStack
     {
-        private List<GameElement> _stack;
+        private List<GameElement> _store;
 
         public GameStack(GameElement initialElement)
         {
-            _stack = new List<GameElement>() { initialElement };
+            _store = new List<GameElement>() { initialElement };
         }
 
         public bool StillRunning()
         {
-            return _stack.Count > 0;
+            return _store.Count > 0;
         }
 
         public void Push(GameElement element)
         {
-            _stack.Add(element);
+            _store.Add(element);
         }
 
         public void HandleUserInput(UserAction userAction)
         {
-            var element = _stack[_stack.Count - 1];
+            var element = _store[_store.Count - 1];
             var isElementFinished = element.HandleUserAction(userAction);
 
             if (isElementFinished)
             {
-                _stack.RemoveAt(_stack.Count - 1);
+                _store.RemoveAt(_store.Count - 1);
             }
         }
 
@@ -37,9 +37,9 @@ namespace SharpChess
         {
             Console.Clear();
 
-            foreach (var model in _stack)
+            foreach (var element in _store)
             {
-                var view = model.GetView();
+                var view = element.GetView();
                 view.Render();
             }
         }
