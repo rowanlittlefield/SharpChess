@@ -97,16 +97,16 @@ namespace SharpChess
             _view.Render(this);
         }
 
-        public bool ToggleTheme()
+        public BoardMemento ToggleTheme()
         {
             _view.ToggleTheme();
-            return false;
+            return NullBoardMemento.GetInstance();
         }
 
-        public bool FlipBoard()
+        public BoardMemento FlipBoard()
         {
             IsFlipped = !IsFlipped;
-            return false;
+            return NullBoardMemento.GetInstance();
         }
 
         public (int, int) GetCursorCoordinates()
@@ -114,23 +114,26 @@ namespace SharpChess
             return _cursor.getCoordinates();
         }
 
-        public bool MoveCursor(UserAction userAction)
+        public BoardMemento MoveCursor(UserAction userAction)
         {
             var direction = IsFlipped ? userAction.FlipVertically() : userAction;
             _cursor.Move(direction);
-            return false;
+            return NullBoardMemento.GetInstance();
         }
 
-        public bool SelectCursorPosition(PieceColor currentPlayer)
+        public BoardMemento SelectCursorPosition(PieceColor currentPlayer)
         {
             if (PieceSelection.moveOptions.Contains(_cursor.getCoordinates()))
             {
+                var start = PieceSelection.piece.Coordinates;
+                var end = _cursor.getCoordinates();
+                var piece = PieceSelection.piece;
                 _moveSelectedPiece(_cursor.getCoordinates());
-                return true;
+                return new MovePieceBoardMemento(piece, start, end);
             }
             
             _selectCursorPiece(currentPlayer);
-            return false;
+            return NullBoardMemento.GetInstance();
         }
 
         private void _selectCursorPiece(PieceColor currentPlayer)
@@ -164,6 +167,15 @@ namespace SharpChess
             _grid[oldRow, oldCol] = NullPiece.GetInstance();
         }
 
+        private void _undoMovePiece(Piece piece, (int, int) coordinates)
+        {
+            var (oldRow, oldCol) = piece.Coordinates;
+            var (row, col) = coordinates;
+            piece.UndoMove(coordinates);
+            _grid[row, col] = piece;
+            _grid[oldRow, oldCol] = NullPiece.GetInstance();
+        }
+
         public bool IsOnBoard((int, int) position)
         {
             var (row, col) = position;
@@ -182,6 +194,22 @@ namespace SharpChess
         private IEnumerable<Piece> _gridToQuery()
         {
             return from Piece piece in _grid select piece;
+        }
+
+        public BoardMemento RevertSetSpace(MovePieceBoardMemento memento)
+        {
+            _cursor.SetCoordinates(memento.EndCoordinates);
+            _undoMovePiece(memento.Piece, memento.StartCoordinates);
+            PieceSelection = NullPieceSelection.GetInstance();
+            return new UndoMoveBoardMemento();
+        }
+
+        public BoardMemento RedoSetSpace(MovePieceBoardMemento memento)
+        {
+            _cursor.SetCoordinates(memento.EndCoordinates);
+            _movePiece(memento.Piece, memento.EndCoordinates);
+            PieceSelection = NullPieceSelection.GetInstance();
+            return new RedoMoveBoardMemento();
         }
     }
 }

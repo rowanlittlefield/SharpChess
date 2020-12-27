@@ -22,6 +22,11 @@ namespace SharpChess
             Coordinates = coordinates;
         }
 
+        public virtual void UndoMove((int, int) coordinates)
+        {
+            Coordinates = coordinates;
+        }
+
         public bool IsNullPiece()
         {
             return this == NullPiece.GetInstance();

@@ -17,6 +17,11 @@ namespace SharpChess
             return _coordinates;
         }
 
+        public void SetCoordinates((int, int) coordinates)
+        {
+            _coordinates = coordinates;
+        }
+
         public void Move(UserAction userAction)
         {
             var (row, col) = _coordinates;
