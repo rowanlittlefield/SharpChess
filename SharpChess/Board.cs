@@ -196,18 +196,20 @@ namespace SharpChess
             return from Piece piece in _grid select piece;
         }
 
-        public void RevertSetSpace(MovePieceBoardMemento memento)
+        public BoardMemento RevertSetSpace(MovePieceBoardMemento memento)
         {
             _cursor.SetCoordinates(memento.EndCoordinates);
             _undoMovePiece(memento.Piece, memento.StartCoordinates);
             PieceSelection = NullPieceSelection.GetInstance();
+            return new UndoMoveBoardMemento();
         }
 
-        public void RedoSetSpace(MovePieceBoardMemento memento)
+        public BoardMemento RedoSetSpace(MovePieceBoardMemento memento)
         {
             _cursor.SetCoordinates(memento.EndCoordinates);
             _movePiece(memento.Piece, memento.EndCoordinates);
             PieceSelection = NullPieceSelection.GetInstance();
+            return new RedoMoveBoardMemento();
         }
     }
 }

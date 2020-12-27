@@ -33,9 +33,9 @@ namespace SharpChess
 
             var lastItem = _pastMementos[_pastMementos.Count - 1];
             _pastMementos.RemoveAt(_pastMementos.Count - 1);
-            board.RevertSetSpace(lastItem);
+            var memento = board.RevertSetSpace(lastItem);
             _futureMementos.Add(lastItem);
-            return new UndoMoveBoardMemento();
+            return memento;
         }
 
         public BoardMemento Forward(Board board)
@@ -47,9 +47,9 @@ namespace SharpChess
 
             var lastItem = _futureMementos[_futureMementos.Count - 1];
             _futureMementos.RemoveAt(_futureMementos.Count - 1);
-            board.RedoSetSpace(lastItem);
+            var memento = board.RedoSetSpace(lastItem);
             _pastMementos.Add(lastItem);
-            return new UndoMoveBoardMemento();
+            return memento;
         }
     }
 }
