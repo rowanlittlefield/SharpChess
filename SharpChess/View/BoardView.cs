@@ -22,8 +22,7 @@ namespace SharpChess
 
         public override void Render()
         {
-            var board = _board;
-            var isFlipped = board.IsFlipped;
+            var isFlipped = _board.IsFlipped;
             var initialRowIndex = isFlipped ? GridLength - 1 : 0;
             var rowIncrementerIndex = isFlipped ? -1 : 1;
             for (int row = initialRowIndex; row < GridLength && row >= 0; row += rowIncrementerIndex * 1)
@@ -31,7 +30,7 @@ namespace SharpChess
                 for (int col = 0; col < GridLength; col += 1)
                 {
                     var pos = (row, col);
-                    _pieceView.Render(board, pos);
+                    _pieceView.Render(_board, pos);
                 }
 
                 Console.WriteLine("");
