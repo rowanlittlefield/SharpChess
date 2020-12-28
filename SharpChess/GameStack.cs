@@ -22,7 +22,7 @@ namespace SharpChess
             _store.Add(element);
         }
 
-        public void HandleUserInput(UserAction userAction)
+        public Navigation HandleUserAction(UserAction userAction)
         {
             var element = _store[_store.Count - 1];
             var navigation = element.HandleUserAction(userAction);
@@ -35,6 +35,8 @@ namespace SharpChess
                 default:
                     break;
             }
+
+            return navigation;
         }
 
         private void _pop()

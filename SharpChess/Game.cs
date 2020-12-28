@@ -24,7 +24,7 @@
         {
             _gameStack.Render();
             var userAction = _controller.getUserAction();
-            _gameStack.HandleUserInput(userAction);
+            _gameStack.HandleUserAction(userAction);
         }
     }
 }
