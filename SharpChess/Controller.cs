@@ -34,6 +34,8 @@ namespace SharpChess
                     return UserAction.Left;
                 case ' ':
                     return UserAction.Enter;
+                case 'q':
+                    return UserAction.Start;
                 case 't':
                     return UserAction.ToggleTheme;
                 case 'f':

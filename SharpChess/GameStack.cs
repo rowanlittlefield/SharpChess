@@ -32,6 +32,12 @@ namespace SharpChess
                     _pop();
                     Push(navigation.GameElement);
                     break;
+                case NavigationAction.Push:
+                    Push(navigation.GameElement);
+                    break;
+                case NavigationAction.Close:
+                    _pop();
+                    break;
                 default:
                     break;
             }
