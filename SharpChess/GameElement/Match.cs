@@ -25,18 +25,19 @@ namespace SharpChess
                 return new Navigation(NavigationAction.Next, new MainMenu());
             }
 
-            _playTick(userAction);
-            return new Navigation(NavigationAction.Null, NullGameElement.GetInstance());
+            return _playTick(userAction);
 
         }
 
-        private void _playTick(UserAction userAction)
+        private Navigation _playTick(UserAction userAction)
         {
             switch (userAction)
             {
                 case UserAction.Enter:
                     _board.SelectCursorPosition(_currentPlayer);
                     break;
+                case UserAction.Start:
+                    return new Navigation(NavigationAction.Push, new MatchStartMenu());
                 case UserAction.ToggleTheme:
                     _board.ToggleTheme();
                     break;
@@ -53,6 +54,8 @@ namespace SharpChess
                     _board.MoveCursor(userAction);
                     break;
             }
+
+            return new Navigation(NavigationAction.Null, NullGameElement.GetInstance());
         }
 
         public override View GetView()

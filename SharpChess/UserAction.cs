@@ -9,6 +9,7 @@ namespace SharpChess
         Down,
         Left,
         Enter,
+        Start,
         ToggleTheme,
         FlipBoard,
         Undo,
