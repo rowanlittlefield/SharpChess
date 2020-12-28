@@ -4,7 +4,7 @@ namespace SharpChess
     public sealed class NullGameElement : GameElement
     {
         static private NullGameElement _instance;
-        public NullGameElement()
+        private NullGameElement()
         {
         }
 
