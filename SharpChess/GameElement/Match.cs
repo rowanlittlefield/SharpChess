@@ -18,15 +18,16 @@ namespace SharpChess
             _history.TimeTraveled += OnTimeTraveled;
         }
 
-        public override bool HandleUserAction(UserAction userAction)
+        public override Navigation HandleUserAction(UserAction userAction)
         {
             if (IsGameOver())
             {
-                return true;
+                return new Navigation(NavigationAction.Next, new MainMenu());
             }
 
             _playTick(userAction);
-            return false;
+            return new Navigation(NavigationAction.Null, NullGameElement.GetInstance());
+
         }
 
         private void _playTick(UserAction userAction)

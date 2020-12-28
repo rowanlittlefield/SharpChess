@@ -22,15 +22,26 @@ namespace SharpChess
             _store.Add(element);
         }
 
-        public void HandleUserInput(UserAction userAction)
+        public Navigation HandleUserAction(UserAction userAction)
         {
             var element = _store[_store.Count - 1];
-            var isElementFinished = element.HandleUserAction(userAction);
-
-            if (isElementFinished)
+            var navigation = element.HandleUserAction(userAction);
+            switch (navigation.Action)
             {
-                _store.RemoveAt(_store.Count - 1);
+                case NavigationAction.Next:
+                    _pop();
+                    Push(navigation.GameElement);
+                    break;
+                default:
+                    break;
             }
+
+            return navigation;
+        }
+
+        private void _pop()
+        {
+            _store.RemoveAt(_store.Count - 1);
         }
 
         public void Render()

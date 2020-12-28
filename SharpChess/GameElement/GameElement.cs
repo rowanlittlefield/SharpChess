@@ -1,5 +1,4 @@
-﻿using System;
-namespace SharpChess
+﻿namespace SharpChess
 {
     public abstract class GameElement
     {
@@ -7,7 +6,7 @@ namespace SharpChess
         {
         }
 
-        public abstract bool HandleUserAction(UserAction userAction);
+        public abstract Navigation HandleUserAction(UserAction userAction);
 
         public abstract View GetView();
     }
