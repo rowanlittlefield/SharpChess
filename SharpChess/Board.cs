@@ -1,8 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace SharpChess
 {
+    public class EndTurnEventArgs : EventArgs
+    {
+        public BoardMemento Memento { get; private set; }
+
+        public EndTurnEventArgs(BoardMemento memento)
+        {
+            Memento = memento;
+        }
+    }
+
     public class Board
     {
         public static readonly int GridLength = SharedConstants.GridLength;
@@ -17,7 +28,7 @@ namespace SharpChess
             _cursor = new Cursor(Board.GridLength);
             _grid = GridBuilder.CreateGrid();
             PieceSelection = NullPieceSelection.GetInstance();
-            _view = new BoardView();
+            _view = new BoardView(this);
             IsFlipped = false;
         }
 
@@ -26,8 +37,13 @@ namespace SharpChess
             _cursor = new Cursor(Board.GridLength);
             _grid = GridBuilder.CloneGrid(grid);
             PieceSelection = NullPieceSelection.GetInstance();
-            _view = new BoardView();
+            _view = new BoardView(this);
             IsFlipped = false;
+        }
+
+        public View GetView()
+        {
+            return _view;
         }
 
         public bool GameOver(PieceColor playerColor)
@@ -94,19 +110,17 @@ namespace SharpChess
 
         public void Render()
         {
-            _view.Render(this);
+            _view.Render();
         }
 
-        public BoardMemento ToggleTheme()
+        public void ToggleTheme()
         {
             _view.ToggleTheme();
-            return NullBoardMemento.GetInstance();
         }
 
-        public BoardMemento FlipBoard()
+        public void FlipBoard()
         {
             IsFlipped = !IsFlipped;
-            return NullBoardMemento.GetInstance();
         }
 
         public (int, int) GetCursorCoordinates()
@@ -114,14 +128,13 @@ namespace SharpChess
             return _cursor.getCoordinates();
         }
 
-        public BoardMemento MoveCursor(UserAction userAction)
+        public void MoveCursor(UserAction userAction)
         {
             var direction = IsFlipped ? userAction.FlipVertically() : userAction;
             _cursor.Move(direction);
-            return NullBoardMemento.GetInstance();
         }
 
-        public BoardMemento SelectCursorPosition(PieceColor currentPlayer)
+        public void SelectCursorPosition(PieceColor currentPlayer)
         {
             if (PieceSelection.moveOptions.Contains(_cursor.getCoordinates()))
             {
@@ -129,11 +142,13 @@ namespace SharpChess
                 var end = _cursor.getCoordinates();
                 var piece = PieceSelection.piece;
                 _moveSelectedPiece(_cursor.getCoordinates());
-                return new MovePieceBoardMemento(piece, start, end);
+                var memento = new BoardMemento(piece, start, end);
+                var payload = new EndTurnEventArgs(memento);
+                OnEndTurn(payload);
+            } else
+            {
+                _selectCursorPiece(currentPlayer);
             }
-            
-            _selectCursorPiece(currentPlayer);
-            return NullBoardMemento.GetInstance();
         }
 
         private void _selectCursorPiece(PieceColor currentPlayer)
@@ -196,20 +211,28 @@ namespace SharpChess
             return from Piece piece in _grid select piece;
         }
 
-        public BoardMemento RevertSetSpace(MovePieceBoardMemento memento)
+        public void RevertSetSpace(BoardMemento memento)
         {
             _cursor.SetCoordinates(memento.EndCoordinates);
             _undoMovePiece(memento.Piece, memento.StartCoordinates);
             PieceSelection = NullPieceSelection.GetInstance();
-            return new UndoMoveBoardMemento();
         }
 
-        public BoardMemento RedoSetSpace(MovePieceBoardMemento memento)
+        public void RedoSetSpace(BoardMemento memento)
         {
             _cursor.SetCoordinates(memento.EndCoordinates);
             _movePiece(memento.Piece, memento.EndCoordinates);
             PieceSelection = NullPieceSelection.GetInstance();
-            return new RedoMoveBoardMemento();
+        }
+
+        public event EventHandler<EndTurnEventArgs> EndTurn;
+
+        protected virtual void OnEndTurn(EndTurnEventArgs args)
+        {
+            if (EndTurn != null)
+            {
+                EndTurn(this, args);
+            }
         }
     }
 }
