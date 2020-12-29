@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace SharpChess
+﻿namespace SharpChess
 {
     public static class FileHandler
     {
@@ -22,7 +20,6 @@ namespace SharpChess
             var path = "/Users/rowanlittlefield/Projects/SharpChess/SharpChess/SavedMatches/saved-board.txt";
             var matchTextLines = System.IO.File.ReadAllLines(path);
             return new Match(matchTextLines);
-            //var gridTextLines = matchTextLines.Take(8);
 
         }
     }
