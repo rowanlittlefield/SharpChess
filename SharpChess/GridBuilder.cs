@@ -14,7 +14,7 @@
             {
                 var col = 0;
                 var pieceTokens = line.Split(",");
-                foreach(var pieceToken in pieceTokens)
+                foreach (var pieceToken in pieceTokens)
                 {
                     if (!string.IsNullOrEmpty(pieceToken))
                     {
@@ -26,6 +26,30 @@
                 row += 1;
             }
 
+            return grid;
+        }
+
+        public static Piece[,] CreateGrid(string[] lines)
+        {
+            var grid = new Piece[GridLength, GridLength];
+            var gridTextLines = lines;
+
+            var row = 0;
+            foreach (var line in gridTextLines)
+            {
+                var col = 0;
+                var pieceTokens = line.Split(",");
+                foreach (var pieceToken in pieceTokens)
+                {
+                    if (!string.IsNullOrEmpty(pieceToken))
+                    {
+                        var piece = _parseToken(pieceToken, (row, col));
+                        grid[row, col] = piece;
+                        col += 1;
+                    }
+                }
+                row += 1;
+            }
 
             return grid;
         }

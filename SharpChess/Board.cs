@@ -32,6 +32,15 @@ namespace SharpChess
             IsFlipped = false;
         }
 
+        public Board(string[] gridLines)
+        {
+            _cursor = new Cursor(Board.GridLength);
+            _grid = GridBuilder.CreateGrid(gridLines);
+            PieceSelection = NullPieceSelection.GetInstance();
+            _view = new BoardView(this);
+            IsFlipped = false;
+        }
+
         private Board(Piece[,] grid)
         {
             _cursor = new Cursor(Board.GridLength);

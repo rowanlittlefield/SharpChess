@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace SharpChess
 {
@@ -15,6 +17,26 @@ namespace SharpChess
             _currentPlayer = PieceColor.White;
             _history = new History();
             _unrecordedTurns = 0;
+
+            _board.EndTurn += OnEndTurn;
+            _history.TimeTraveled += OnTimeTraveled;
+        }
+
+        public Match(string[] lines)
+        {
+            var gridTextLines = lines.Take(8).ToArray();
+            Console.WriteLine(lines[8]);
+            System.Threading.Thread.Sleep(3000);
+            var unrecordedTurnsMatch = Regex.Match(lines[8], " turn:(d)");
+            Console.WriteLine(lines[8][lines[8].Length - 1]);
+            System.Threading.Thread.Sleep(3000);
+            //var unrecordedTurns = Int32.Parse(unrecordedTurnsMatch.Captures[0].Value);
+            var unrecordedTurns = Int32.Parse(lines[8][lines[8].Length - 1].ToString());
+
+            _board = new Board(gridTextLines);
+            _currentPlayer = unrecordedTurns % 2 == 0 ? PieceColor.White : PieceColor.Black;
+            _history = new History();
+            _unrecordedTurns = unrecordedTurns;
 
             _board.EndTurn += OnEndTurn;
             _history.TimeTraveled += OnTimeTraveled;
