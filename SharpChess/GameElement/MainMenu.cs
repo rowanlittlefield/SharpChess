@@ -7,7 +7,7 @@
             "New Game",
             "Load Game",
         };
-        public int OptionsIndex { get; private set;  }
+        public int OptionsIndex { get; private set; }
         public MainMenu()
         {
             OptionsIndex = 0;
@@ -39,7 +39,7 @@
                     match = FileHandler.LoadSavedMatch();
                     break;
                 default:
-                    match = FileHandler.GetDefaultMatch();
+                    match = FileHandler.LoadDefaultMatch();
                     break;
             }
             return new Navigation(NavigationAction.Next, match);

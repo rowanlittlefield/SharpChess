@@ -11,11 +11,10 @@ namespace SharpChess
 
         public override void Execute()
         {
-            Console.WriteLine("Saving...");
+            //var lines = _match.ToText();
+            FileHandler.SaveMatch(_match);
+            Console.WriteLine("Game saved!");
             System.Threading.Thread.Sleep(1000);
-
-            var lines = _match.ToText();
-            FileHandler.SaveMatch(lines);
         }
     }
 }
