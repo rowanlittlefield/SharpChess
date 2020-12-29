@@ -2,8 +2,8 @@
 {
     public static class FileHandler
     {
-        private static string _defaultMatchPath = "/Users/rowanlittlefield/Projects/SharpChess/SharpChess/SavedMatches/default-board.txt";
-        private static string _savedMatchPath = "/Users/rowanlittlefield/Projects/SharpChess/SharpChess/SavedMatches/saved-board.txt";
+        private static string _defaultMatchPath = "/Users/rowanlittlefield/Projects/SharpChess/SharpChess/SavedMatches/default-match.txt";
+        private static string _savedMatchPath = "/Users/rowanlittlefield/Projects/SharpChess/SharpChess/SavedMatches/saved-match.txt";
 
         public static Match LoadDefaultMatch()
         {
