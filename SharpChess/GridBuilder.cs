@@ -7,8 +7,7 @@
         public static Piece[,] CreateGrid()
         {
             var grid = new Piece[GridLength, GridLength];
-            var path = "/Users/rowanlittlefield/Projects/SharpChess/SharpChess/default-board.txt";
-            var gridTextLines = System.IO.File.ReadAllLines(path);
+            var gridTextLines = FileHandler.GetDefaultBoard();
 
             var row = 0;
             foreach (var line in gridTextLines)
@@ -82,6 +81,24 @@
             }
 
             return gridDup;
+        }
+
+        public static string[] ToTokens(Board board)
+        {
+            var tokenizer = new PieceTokenizer();
+            var lines = new string[8];
+            for (int row = 0; row < GridLength; row++)
+            {
+                for (int col = 0; col < GridLength; col++)
+                {
+                    var piece = board.GetPiece((row, col));
+                    piece.Accept(tokenizer);
+                }
+                lines[row] = $"{tokenizer.Tokens}";
+                tokenizer.ClearTokens();
+            }
+
+            return lines;
         }
     }
 }

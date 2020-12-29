@@ -24,6 +24,11 @@ namespace SharpChess
             return "k";
         }
 
+        public override void Accept(PieceVisitor visitor)
+        {
+            visitor.VisitKnight(this);
+        }
+
         public override HashSet<(int, int)> GetMoveOptions(Board board)
         {
             var moveOptions = new HashSet<(int, int)> { };

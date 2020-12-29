@@ -25,6 +25,11 @@ namespace SharpChess
             return " ";
         }
 
+        public override void Accept(PieceVisitor visitor)
+        {
+            visitor.VisitNullPiece(this);
+        }
+
         public override HashSet<(int, int)> GetMoveOptions(Board board)
         {
             return new HashSet<(int, int)> { };
@@ -32,7 +37,7 @@ namespace SharpChess
 
         public override Piece Clone()
         {
-            return NullPiece.GetInstance();
+            return GetInstance();
         }
     }
 }

@@ -24,6 +24,11 @@ namespace SharpChess
             return "Q";
         }
 
+        public override void Accept(PieceVisitor visitor)
+        {
+            visitor.VisitQueen(this);
+        }
+
         public override HashSet<(int, int)> GetMoveOptions(Board board)
         {
             return SlidingPathFinder.GetMoveOptions(board, this, MOVE_DIFFS);

@@ -24,4 +24,17 @@ static class PieceColorMethods
                 return PieceColor.Null;
         }
     }
+
+    public static string ToToken(this PieceColor color)
+    {
+        switch (color)
+        {
+            case PieceColor.White:
+                return "w";
+            case PieceColor.Black:
+                return "b";
+            default:
+                return " ";
+        }
+    }
 }
