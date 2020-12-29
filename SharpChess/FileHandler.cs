@@ -2,23 +2,23 @@
 {
     public static class FileHandler
     {
+        private static string _defaultMatchPath = "/Users/rowanlittlefield/Projects/SharpChess/SharpChess/SavedMatches/default-board.txt";
+        private static string _savedMatchPath = "/Users/rowanlittlefield/Projects/SharpChess/SharpChess/SavedMatches/saved-board.txt";
+
         public static Match GetDefaultMatch()
         {
-            var path = "/Users/rowanlittlefield/Projects/SharpChess/SharpChess/SavedMatches/default-board.txt";
-            var matchTextLines = System.IO.File.ReadAllLines(path);
+            var matchTextLines = System.IO.File.ReadAllLines(_defaultMatchPath);
             return new Match(matchTextLines);
         }
 
         public static void SaveMatch(string[] lines)
         {
-            var path = "/Users/rowanlittlefield/Projects/SharpChess/SharpChess/SavedMatches/saved-board.txt";
-            System.IO.File.WriteAllLines(path, lines);
+            System.IO.File.WriteAllLines(_savedMatchPath, lines);
         }
 
         public static Match LoadSavedMatch()
         {
-            var path = "/Users/rowanlittlefield/Projects/SharpChess/SharpChess/SavedMatches/saved-board.txt";
-            var matchTextLines = System.IO.File.ReadAllLines(path);
+            var matchTextLines = System.IO.File.ReadAllLines(_savedMatchPath);
             return new Match(matchTextLines);
         }
     }
