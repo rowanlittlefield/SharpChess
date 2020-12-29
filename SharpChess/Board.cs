@@ -23,15 +23,6 @@ namespace SharpChess
         private BoardView _view;
         public bool IsFlipped { get; private set; }
 
-        public Board()
-        {
-            _cursor = new Cursor(Board.GridLength);
-            _grid = GridBuilder.CreateGrid();
-            PieceSelection = NullPieceSelection.GetInstance();
-            _view = new BoardView(this);
-            IsFlipped = false;
-        }
-
         public Board(string[] gridLines)
         {
             _cursor = new Cursor(Board.GridLength);

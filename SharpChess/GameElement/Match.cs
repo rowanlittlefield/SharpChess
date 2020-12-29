@@ -11,17 +11,6 @@ namespace SharpChess
         private History _history;
         private int _unrecordedTurns;
 
-        public Match()
-        {
-            _board = new Board();
-            _currentPlayer = PieceColor.White;
-            _history = new History();
-            _unrecordedTurns = 0;
-
-            _board.EndTurn += OnEndTurn;
-            _history.TimeTraveled += OnTimeTraveled;
-        }
-
         public Match(string[] lines)
         {
             var gridTextLines = lines.Take(8).ToArray();

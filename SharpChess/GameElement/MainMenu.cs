@@ -39,7 +39,7 @@
                     match = FileHandler.LoadSavedMatch();
                     break;
                 default:
-                    match = new Match();
+                    match = FileHandler.GetDefaultMatch();
                     break;
             }
             return new Navigation(NavigationAction.Next, match);

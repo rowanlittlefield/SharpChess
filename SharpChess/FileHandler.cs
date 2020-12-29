@@ -2,11 +2,11 @@
 {
     public static class FileHandler
     {
-        public static string[] GetDefaultBoard()
+        public static Match GetDefaultMatch()
         {
             var path = "/Users/rowanlittlefield/Projects/SharpChess/SharpChess/SavedMatches/default-board.txt";
-            var gridTextLines = System.IO.File.ReadAllLines(path);
-            return gridTextLines;
+            var matchTextLines = System.IO.File.ReadAllLines(path);
+            return new Match(matchTextLines);
         }
 
         public static void SaveMatch(string[] lines)
