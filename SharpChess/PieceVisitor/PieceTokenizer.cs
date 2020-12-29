@@ -41,7 +41,7 @@
 
         public override void VisitNullPiece(NullPiece nullpiece)
         {
-            Tokens += $" : ,";
+            Tokens += " : ,";
         }
 
         public void ClearTokens()
