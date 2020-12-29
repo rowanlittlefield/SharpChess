@@ -20,7 +20,6 @@
             var path = "/Users/rowanlittlefield/Projects/SharpChess/SharpChess/SavedMatches/saved-board.txt";
             var matchTextLines = System.IO.File.ReadAllLines(path);
             return new Match(matchTextLines);
-
         }
     }
 }
