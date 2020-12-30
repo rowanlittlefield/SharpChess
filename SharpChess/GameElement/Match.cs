@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Linq;
-using System.Text.RegularExpressions;
 
 namespace SharpChess
 {
@@ -11,21 +9,14 @@ namespace SharpChess
         private History _history;
         private int _unrecordedTurns;
 
-        public Match(string[] lines)
+        public Match(string[] matchTextFileLines)
         {
-            var gridTextLines = lines.Take(8).ToArray();
-            Console.WriteLine(lines[8]);
-            System.Threading.Thread.Sleep(3000);
-            var unrecordedTurnsMatch = Regex.Match(lines[8], " turn:(d)");
-            Console.WriteLine(lines[8][lines[8].Length - 1]);
-            System.Threading.Thread.Sleep(3000);
-            //var unrecordedTurns = Int32.Parse(unrecordedTurnsMatch.Captures[0].Value);
-            var unrecordedTurns = Int32.Parse(lines[8][lines[8].Length - 1].ToString());
+            var matchTextParser = new MatchTextParser(matchTextFileLines);
 
-            _board = new Board(gridTextLines);
-            _currentPlayer = unrecordedTurns % 2 == 0 ? PieceColor.White : PieceColor.Black;
+            _board = new Board(matchTextParser.GridTextLines);
+            _currentPlayer = matchTextParser.CurrentPlayer;
             _history = new History();
-            _unrecordedTurns = unrecordedTurns;
+            _unrecordedTurns = matchTextParser.NumberOfElapsedTurns;
 
             _board.EndTurn += OnEndTurn;
             _history.TimeTraveled += OnTimeTraveled;
@@ -104,10 +95,10 @@ namespace SharpChess
 
         public string[] ToText()
         {
-            var allLines = new string[9];
+            var allLines = new string[SharedConstants.GridLength + 1];
             var pieceTokenLines = GridBuilder.ToTokens(_board);
             pieceTokenLines.CopyTo(allLines, 0);
-            allLines[8] = $"turn:{TurnNumber() - 1}";
+            allLines[SharedConstants.GridLength] = $"turn:{TurnNumber() - 1}";
             return allLines;
         } 
 
