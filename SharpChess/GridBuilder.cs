@@ -2,7 +2,7 @@
 {
     public static class GridBuilder
     {
-        public static readonly int GridLength = SharedConstants.GridLength;
+        private static readonly int GridLength = SharedConstants.GridLength;
 
         public static Piece[,] CreateGrid(string[] lines)
         {
@@ -85,7 +85,7 @@
         public static string[] ToTokens(Board board)
         {
             var tokenizer = new PieceTokenizer();
-            var lines = new string[8];
+            var lines = new string[GridLength];
             for (int row = 0; row < GridLength; row++)
             {
                 for (int col = 0; col < GridLength; col++)
