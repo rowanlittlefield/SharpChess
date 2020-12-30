@@ -4,10 +4,9 @@
     {
         private static readonly int GridLength = SharedConstants.GridLength;
 
-        public static Piece[,] CreateGrid(string[] lines)
+        public static Piece[,] CreateGrid(string[] gridTextLines)
         {
             var grid = new Piece[GridLength, GridLength];
-            var gridTextLines = lines;
 
             var row = 0;
             foreach (var line in gridTextLines)
