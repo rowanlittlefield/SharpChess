@@ -24,6 +24,11 @@ namespace SharpChess
             return "p";
         }
 
+        public override void Accept(PieceVisitor visitor)
+        {
+            visitor.VisitPawn(this);
+        }
+
         public override void Move((int, int) coordinates)
         {
             base.Move(coordinates);

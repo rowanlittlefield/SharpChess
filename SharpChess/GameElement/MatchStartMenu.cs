@@ -9,10 +9,12 @@ namespace SharpChess
             "Close",
         };
         public int OptionsIndex { get; private set; }
+        private SaveMatchCommand _saveMatchCommand;
 
-        public MatchStartMenu()
+        public MatchStartMenu(SaveMatchCommand saveMatchCommand)
         {
             OptionsIndex = 0;
+            _saveMatchCommand = saveMatchCommand;
         }
 
         public override View GetView()
@@ -43,7 +45,8 @@ namespace SharpChess
             switch (option)
             {
                 case "Save":
-                    return new Navigation(NavigationAction.Null, NullGameElement.GetInstance());
+                    _saveMatchCommand.Execute();
+                    return new Navigation(NavigationAction.Close, NullGameElement.GetInstance());
                 case "Close":
                     return new Navigation(NavigationAction.Close, NullGameElement.GetInstance());
                 default:

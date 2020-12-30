@@ -5,8 +5,9 @@
         public readonly string[] Options = new string[]
         {
             "New Game",
+            "Load Game",
         };
-        public int OptionsIndex { get; private set;  }
+        public int OptionsIndex { get; private set; }
         public MainMenu()
         {
             OptionsIndex = 0;
@@ -17,11 +18,31 @@
             switch (userAction)
             {
                 case UserAction.Enter:
-                    return new Navigation(NavigationAction.Next, new Match());
+                    return _handleEnter();
+                case UserAction.Up:
+                    OptionsIndex = OptionsIndex == 0 ? Options.Length - 1 : OptionsIndex - 1;
+                    return new Navigation(NavigationAction.Null, NullGameElement.GetInstance());
+                case UserAction.Down:
+                    OptionsIndex = (OptionsIndex + 1) % Options.Length;
+                    return new Navigation(NavigationAction.Null, NullGameElement.GetInstance());
                 default:
                     return new Navigation(NavigationAction.Null, NullGameElement.GetInstance());
             }
+        }
 
+        private Navigation _handleEnter()
+        {
+            Match match;
+            switch (Options[OptionsIndex])
+            {
+                case "Load Game":
+                    match = FileHandler.LoadSavedMatch();
+                    break;
+                default:
+                    match = FileHandler.LoadDefaultMatch();
+                    break;
+            }
+            return new Navigation(NavigationAction.Next, match);
         }
 
         public override View GetView()

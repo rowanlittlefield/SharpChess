@@ -7,12 +7,16 @@ namespace SharpChess
         private Board _board;
         private PieceColor _currentPlayer;
         private History _history;
+        private int _unrecordedTurns;
 
-        public Match()
+        public Match(string[] matchTextFileLines)
         {
-            _board = new Board();
-            _currentPlayer = PieceColor.White;
+            var matchTextParser = new MatchTextParser(matchTextFileLines);
+
+            _board = new Board(matchTextParser.GridTextLines);
+            _currentPlayer = matchTextParser.CurrentPlayer;
             _history = new History();
+            _unrecordedTurns = matchTextParser.NumberOfElapsedTurns;
 
             _board.EndTurn += OnEndTurn;
             _history.TimeTraveled += OnTimeTraveled;
@@ -37,7 +41,8 @@ namespace SharpChess
                     _board.SelectCursorPosition(_currentPlayer);
                     break;
                 case UserAction.Start:
-                    return new Navigation(NavigationAction.Push, new MatchStartMenu());
+                    var command = new SaveMatchCommand(this);
+                    return new Navigation(NavigationAction.Push, new MatchStartMenu(command));
                 case UserAction.ToggleTheme:
                     _board.ToggleTheme();
                     break;
@@ -80,13 +85,22 @@ namespace SharpChess
 
         public int TurnNumber()
         {
-            return _history.NumberOfElapsedTurns() + 1;
+            return _unrecordedTurns + _history.NumberOfElapsedTurns() + 1;
         }
 
         public PieceColor GetCurrentPlayer()
         {
             return _currentPlayer;
         }
+
+        public string[] ToText()
+        {
+            var allLines = new string[SharedConstants.GridLength + 1];
+            var pieceTokenLines = GridBuilder.ToTokens(_board);
+            pieceTokenLines.CopyTo(allLines, 0);
+            allLines[SharedConstants.GridLength] = $"turn:{TurnNumber() - 1}";
+            return allLines;
+        } 
 
         public void OnEndTurn(object source, EndTurnEventArgs e)
         {

@@ -2,20 +2,18 @@
 {
     public static class GridBuilder
     {
-        public static readonly int GridLength = SharedConstants.GridLength;
+        private static readonly int GridLength = SharedConstants.GridLength;
 
-        public static Piece[,] CreateGrid()
+        public static Piece[,] CreateGrid(string[] gridTextLines)
         {
             var grid = new Piece[GridLength, GridLength];
-            var path = "/Users/rowanlittlefield/Projects/SharpChess/SharpChess/default-board.txt";
-            var gridTextLines = System.IO.File.ReadAllLines(path);
 
             var row = 0;
             foreach (var line in gridTextLines)
             {
                 var col = 0;
                 var pieceTokens = line.Split(",");
-                foreach(var pieceToken in pieceTokens)
+                foreach (var pieceToken in pieceTokens)
                 {
                     if (!string.IsNullOrEmpty(pieceToken))
                     {
@@ -26,7 +24,6 @@
                 }
                 row += 1;
             }
-
 
             return grid;
         }
@@ -82,6 +79,24 @@
             }
 
             return gridDup;
+        }
+
+        public static string[] ToTokens(Board board)
+        {
+            var tokenizer = new PieceTokenizer();
+            var lines = new string[GridLength];
+            for (int row = 0; row < GridLength; row++)
+            {
+                for (int col = 0; col < GridLength; col++)
+                {
+                    var piece = board.GetPiece((row, col));
+                    piece.Accept(tokenizer);
+                }
+                lines[row] = tokenizer.Tokens;
+                tokenizer.ClearTokens();
+            }
+
+            return lines;
         }
     }
 }
