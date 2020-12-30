@@ -93,7 +93,7 @@
                     var piece = board.GetPiece((row, col));
                     piece.Accept(tokenizer);
                 }
-                lines[row] = $"{tokenizer.Tokens}";
+                lines[row] = tokenizer.Tokens;
                 tokenizer.ClearTokens();
             }
 
