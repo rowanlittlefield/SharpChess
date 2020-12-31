@@ -1,4 +1,6 @@
-﻿namespace SharpChess
+﻿using System;
+
+namespace SharpChess
 {
     public class Game
     {
@@ -22,7 +24,8 @@
 
         private void _playTick()
         {
-            _gameStack.Render();
+            Console.Clear();
+            _gameStack.GetView().Render();
             var userAction = _controller.getUserAction();
             _gameStack.HandleUserAction(userAction);
         }
