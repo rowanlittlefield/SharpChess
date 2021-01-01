@@ -1,9 +1,9 @@
 r:b,k:b,b:b,Q:b,K:b,b:b,k:b,r:b,
-p:b,p:b,p:b,p:b,p:b,p:b,p:b,p:b,
+p:b,p:b, : ,p:b,p:b,p:b,p:b,p:b,
  : , : , : , : , : , : , : , : ,
+ : , : ,p:b, : , : , : , : , : ,
+ : , : , : , : , : ,p:w, : , : ,
  : , : , : , : , : , : , : , : ,
- : , : , : , : ,p:w, : , : , : ,
- : , : , : , : , : , : , : , : ,
-p:w,p:w,p:w,p:w, : ,p:w,p:w,p:w,
+p:w,p:w,p:w,p:w,p:w, : ,p:w,p:w,
 r:w,k:w,b:w,Q:w,K:w,b:w,k:w,r:w,
-turn:1
+turn:2
