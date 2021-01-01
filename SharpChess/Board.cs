@@ -182,15 +182,6 @@ namespace SharpChess
             _grid[oldRow, oldCol] = NullPiece.GetInstance();
         }
 
-        private void _undoMovePiece(Piece piece, (int, int) coordinates)
-        {
-            var (oldRow, oldCol) = piece.Coordinates;
-            var (row, col) = coordinates;
-            piece.UndoMove(coordinates);
-            _grid[row, col] = piece;
-            _grid[oldRow, oldCol] = NullPiece.GetInstance();
-        }
-
         public bool IsOnBoard((int, int) position)
         {
             var (row, col) = position;
@@ -214,7 +205,7 @@ namespace SharpChess
         public void RevertSetSpace(BoardMemento memento)
         {
             _cursor.SetCoordinates(memento.EndCoordinates);
-            _undoMovePiece(memento.Piece, memento.StartCoordinates);
+            _movePiece(memento.Piece, memento.StartCoordinates);
             PieceSelection = NullPieceSelection.GetInstance();
         }
 

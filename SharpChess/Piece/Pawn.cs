@@ -11,12 +11,10 @@ namespace SharpChess
             { PieceColor.White, -1 },
         };
         private readonly int _columnDirection;
-        private int _numberOfMoves;
 
         public Pawn(PieceColor color, (int, int) coordinates) : base(color, coordinates)
         {
             _columnDirection = Pawn._columnDirectionMap.GetValueOrDefault(Color);
-            _numberOfMoves = 0;
         }
 
         public override string Render()
@@ -32,13 +30,6 @@ namespace SharpChess
         public override void Move((int, int) coordinates)
         {
             base.Move(coordinates);
-            _numberOfMoves += 1;
-        }
-
-        public override void UndoMove ((int, int) coordinates)
-        {
-            base.Move(coordinates);
-            _numberOfMoves -= 1;
         }
 
         public override HashSet<(int, int)> GetMoveOptions(Board board)
@@ -76,17 +67,8 @@ namespace SharpChess
         private bool _canPerformDoubleMove(Board board)
         {
             var (row, col) = Coordinates;
-            var doubleMove = (row + (2 * _columnDirection), col);
-            if (!board.IsOnBoard(doubleMove))
-            {
-                return false;
-            }
-
-            var pieceInFront = board.GetPiece((row + _columnDirection, col));
-            var pieceTwoAway = board.GetPiece((row + (2 * _columnDirection), col));
-            return pieceInFront.IsNullPiece()
-                && pieceTwoAway.IsNullPiece()
-                && !_hasMoved();
+            return (Color == PieceColor.Black && row == 1)
+                || (Color == PieceColor.White && row == SharedConstants.GridLength - 2);
         }
 
         private bool _canPerformSingleMove(Board board)
@@ -126,11 +108,6 @@ namespace SharpChess
 
             var rightDiagonalPiece = board.GetPiece((row + _columnDirection, col + 1));
             return !rightDiagonalPiece.IsNullPiece() && rightDiagonalPiece.Color != Color;
-        }
-
-        private bool _hasMoved()
-        {
-            return _numberOfMoves > 0;
         }
     }
 }
