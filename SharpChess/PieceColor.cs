@@ -10,7 +10,7 @@ namespace SharpChess
     }
 }
 
-static class PieceColorMethods
+public static class PieceColorMethods
 {
     public static PieceColor GetOpposingColor(this PieceColor color)
     {
