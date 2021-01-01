@@ -33,7 +33,7 @@ namespace SharpChess
             }
             else if (board.PieceSelection.piece.Coordinates == pos)
             {
-                Console.BackgroundColor = ConsoleColor.DarkMagenta;
+                Console.BackgroundColor = ConsoleColor.Cyan;
             }
             else if (_isColoredBackgroundPosition(pos))
             {

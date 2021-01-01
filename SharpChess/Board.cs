@@ -108,11 +108,6 @@ namespace SharpChess
                 .Any(piece => piece.GetMoveOptions(this).Contains(kingPosition));
         }
 
-        public void Render()
-        {
-            _view.Render();
-        }
-
         public void ToggleTheme()
         {
             _view.ToggleTheme();
