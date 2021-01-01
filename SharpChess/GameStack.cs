@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace SharpChess
 {
-    public class GameStack
+    public class GameStack : GameElement
     {
         private List<GameElement> _store;
 
@@ -12,17 +11,12 @@ namespace SharpChess
             _store = new List<GameElement>() { initialElement };
         }
 
-        public bool StillRunning()
+        public override View GetView()
         {
-            return _store.Count > 0;
+            return new GameStackView(_store);
         }
 
-        public void Push(GameElement element)
-        {
-            _store.Add(element);
-        }
-
-        public Navigation HandleUserAction(UserAction userAction)
+        public override Navigation HandleUserAction(UserAction userAction)
         {
             var element = _store[_store.Count - 1];
             var navigation = element.HandleUserAction(userAction);
@@ -30,10 +24,10 @@ namespace SharpChess
             {
                 case NavigationAction.Next:
                     _pop();
-                    Push(navigation.GameElement);
+                    _push(navigation.GameElement);
                     break;
                 case NavigationAction.Push:
-                    Push(navigation.GameElement);
+                    _push(navigation.GameElement);
                     break;
                 case NavigationAction.Close:
                     _pop();
@@ -45,20 +39,19 @@ namespace SharpChess
             return navigation;
         }
 
+        private void _push(GameElement element)
+        {
+            _store.Add(element);
+        }
+
         private void _pop()
         {
             _store.RemoveAt(_store.Count - 1);
         }
 
-        public void Render()
+        public bool StillRunning()
         {
-            Console.Clear();
-
-            foreach (var element in _store)
-            {
-                var view = element.GetView();
-                view.Render();
-            }
+            return _store.Count > 0;
         }
     }
 }
