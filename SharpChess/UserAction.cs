@@ -18,7 +18,7 @@ namespace SharpChess
     }
 }
 
-static class UserActionMethods
+public static class UserActionMethods
 {
     public static UserAction FlipVertically(this UserAction action)
     {
