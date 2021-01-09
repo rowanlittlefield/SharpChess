@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace SharpChess
 {
@@ -67,8 +66,11 @@ namespace SharpChess
         private bool _canPerformDoubleMove(Board board)
         {
             var (row, col) = Coordinates;
-            return (Color == PieceColor.Black && row == 1)
-                || (Color == PieceColor.White && row == SharedConstants.GridLength - 2);
+            var spaceIsUnoccupied = board.GetPiece((row + (_columnDirection * 2), col))
+                    .IsNullPiece();
+            return ((Color == PieceColor.Black && row == 1)
+                || (Color == PieceColor.White && row == SharedConstants.GridLength - 2))
+                && spaceIsUnoccupied;
         }
 
         private bool _canPerformSingleMove(Board board)
