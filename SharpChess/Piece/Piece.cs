@@ -13,8 +13,6 @@ namespace SharpChess
             Coordinates = coordinates;
         }
 
-        public abstract string Render();
-
         public abstract HashSet<(int, int)> GetMoveOptions(Board board);
 
         public abstract void Accept(PieceVisitor visitor);
