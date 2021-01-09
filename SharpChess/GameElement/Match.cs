@@ -8,6 +8,29 @@ namespace SharpChess
         private PieceColor _currentPlayer;
         private History _history;
         private int _unrecordedTurns;
+        private static string DEFAULT_MATCH_TEXT =
+@"r:b,k:b,b:b,Q:b,K:b,b:b,k:b,r:b,
+p:b,p:b,p:b,p:b,p:b,p:b,p:b,p:b,
+ : , : , : , : , : , : , : , : ,
+ : , : , : , : , : , : , : , : ,
+ : , : , : , : , : , : , : , : ,
+ : , : , : , : , : , : , : , : ,
+p:w,p:w,p:w,p:w,p:w,p:w,p:w,p:w,
+r:w,k:w,b:w,Q:w,K:w,b:w,k:w,r:w,
+turn:0
+";
+        public Match()
+        {
+            var matchTextParser = new MatchTextParser(DEFAULT_MATCH_TEXT.Split('\n'));
+
+            _board = new Board(matchTextParser.GridTextLines);
+            _currentPlayer = matchTextParser.CurrentPlayer;
+            _history = new History();
+            _unrecordedTurns = matchTextParser.NumberOfElapsedTurns;
+
+            _board.EndTurn += OnEndTurn;
+            _history.TimeTraveled += OnTimeTraveled;
+        }
 
         public Match(string[] matchTextFileLines)
         {

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SharpChess
+﻿namespace SharpChess
 {
     class Program
     {
