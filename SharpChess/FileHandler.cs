@@ -1,26 +1,38 @@
-﻿namespace SharpChess
+﻿using System;
+using System.IO;
+
+namespace SharpChess
 {
     public static class FileHandler
     {
-        private static string _defaultMatchPath = "/Users/rowanlittlefield/Projects/SharpChess/SharpChess/SavedMatches/default-match.txt";
-        private static string _savedMatchPath = "/Users/rowanlittlefield/Projects/SharpChess/SharpChess/SavedMatches/saved-match.txt";
-
-        public static Match LoadDefaultMatch()
-        {
-            var matchTextLines = System.IO.File.ReadAllLines(_defaultMatchPath);
-            return new Match(matchTextLines);
-        }
-
         public static void SaveMatch(Match match)
         {
+            var destinationPath = _getSavedFilePath();
             var lines = match.ToText();
-            System.IO.File.WriteAllLines(_savedMatchPath, lines);
+            System.IO.File.WriteAllLines(destinationPath, lines);
         }
 
         public static Match LoadSavedMatch()
         {
-            var matchTextLines = System.IO.File.ReadAllLines(_savedMatchPath);
+            var destinationPath = _getSavedFilePath();
+            var matchTextLines = System.IO.File.ReadAllLines(destinationPath);
             return new Match(matchTextLines);
+        }
+
+        private static string _getSavedFilePath()
+        {
+            var debugRedirect = "";
+            #if DEBUG
+                debugRedirect = "../../../SavedMatches";
+            #endif
+
+            var parts = new string[] {
+                Environment.CurrentDirectory,
+                debugRedirect,
+                "saved-match.txt",
+            };
+
+            return Path.Combine(parts);
         }
     }
 }
