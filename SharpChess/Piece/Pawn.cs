@@ -16,11 +16,6 @@ namespace SharpChess
             _columnDirection = Pawn._columnDirectionMap.GetValueOrDefault(Color);
         }
 
-        public override string Render()
-        {
-            return "p";
-        }
-
         public override void Accept(PieceVisitor visitor)
         {
             visitor.VisitPawn(this);

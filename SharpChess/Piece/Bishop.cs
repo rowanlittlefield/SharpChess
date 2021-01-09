@@ -15,11 +15,6 @@ namespace SharpChess
         {
         }
 
-        public override string Render()
-        {
-            return "b";
-        }
-
         public override void Accept(PieceVisitor visitor)
         {
             visitor.VisitBishop(this);

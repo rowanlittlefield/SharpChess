@@ -20,11 +20,6 @@ namespace SharpChess
             return instance;
         }
 
-        public override string Render()
-        {
-            return " ";
-        }
-
         public override void Accept(PieceVisitor visitor)
         {
             visitor.VisitNullPiece(this);

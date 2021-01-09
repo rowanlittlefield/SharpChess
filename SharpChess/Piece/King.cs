@@ -19,11 +19,6 @@ namespace SharpChess
         {
         }
 
-        public override string Render()
-        {
-            return "K";
-        }
-
         public override void Accept(PieceVisitor visitor)
         {
             visitor.VisitKing(this);

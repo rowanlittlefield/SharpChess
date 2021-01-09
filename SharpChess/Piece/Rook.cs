@@ -15,11 +15,6 @@ namespace SharpChess
         {
         }
 
-        public override string Render()
-        {
-            return "r";
-        }
-
         public override void Accept(PieceVisitor visitor)
         {
             visitor.VisitRook(this);
