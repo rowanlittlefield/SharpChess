@@ -19,17 +19,9 @@ p:w,p:w,p:w,p:w,p:w,p:w,p:w,p:w,
 r:w,k:w,b:w,Q:w,K:w,b:w,k:w,r:w,
 turn:0
 ";
-        public Match()
+        public Match() : this(DEFAULT_MATCH_TEXT.Split('\n'))
         {
-            var matchTextParser = new MatchTextParser(DEFAULT_MATCH_TEXT.Split('\n'));
 
-            _board = new Board(matchTextParser.GridTextLines);
-            _currentPlayer = matchTextParser.CurrentPlayer;
-            _history = new History();
-            _unrecordedTurns = matchTextParser.NumberOfElapsedTurns;
-
-            _board.EndTurn += OnEndTurn;
-            _history.TimeTraveled += OnTimeTraveled;
         }
 
         public Match(string[] matchTextFileLines)
