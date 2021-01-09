@@ -66,11 +66,13 @@ namespace SharpChess
         private bool _canPerformDoubleMove(Board board)
         {
             var (row, col) = Coordinates;
-            var spaceIsUnoccupied = board.GetPiece((row + (_columnDirection * 2), col))
+            var isAtStartingPosition = (Color == PieceColor.Black && row == 1)
+                || (Color == PieceColor.White && row == SharedConstants.GridLength - 2);
+            var destinationIsUnoccupied = board
+                    .GetPiece((row + (_columnDirection * 2), col))
                     .IsNullPiece();
-            return ((Color == PieceColor.Black && row == 1)
-                || (Color == PieceColor.White && row == SharedConstants.GridLength - 2))
-                && spaceIsUnoccupied;
+
+            return isAtStartingPosition && destinationIsUnoccupied;
         }
 
         private bool _canPerformSingleMove(Board board)
