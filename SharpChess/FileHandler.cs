@@ -21,14 +21,14 @@ namespace SharpChess
 
         private static string _getSavedFilePath()
         {
-            var additionalPathPart = "";
+            var debugRedirect = "";
             #if DEBUG
-                additionalPathPart = "../../../SavedMatches";
+                debugRedirect = "../../../SavedMatches";
             #endif
 
             var parts = new string[] {
                 Environment.CurrentDirectory,
-                additionalPathPart,
+                debugRedirect,
                 "saved-match.txt",
             };
 
