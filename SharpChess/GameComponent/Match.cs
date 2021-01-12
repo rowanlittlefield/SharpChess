@@ -2,7 +2,7 @@
 
 namespace SharpChess
 {
-    public class Match : GameElement
+    public class Match : GameComponent
     {
         private Board _board;
         private PieceColor _currentPlayer;
@@ -77,7 +77,7 @@ namespace SharpChess
                     break;
             }
 
-            return new Navigation(NavigationAction.Null, NullGameElement.GetInstance());
+            return new Navigation(NavigationAction.Null, NullGameComponent.GetInstance());
         }
 
         public override View GetView()

@@ -4,8 +4,8 @@ namespace SharpChess
 {
     public class GameStackView : View
     {
-        private List<GameElement> _store;
-        public GameStackView(List<GameElement> gameStackStore)
+        private List<GameComponent> _store;
+        public GameStackView(List<GameComponent> gameStackStore)
         {
             _store = gameStackStore;
         }

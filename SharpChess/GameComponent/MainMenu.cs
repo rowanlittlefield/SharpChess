@@ -1,6 +1,6 @@
 ﻿namespace SharpChess
 {
-    public class MainMenu : GameElement
+    public class MainMenu : GameComponent
     {
         public readonly string[] Options = new string[]
         {
@@ -21,12 +21,12 @@
                     return _handleEnter();
                 case UserAction.Up:
                     OptionsIndex = OptionsIndex == 0 ? Options.Length - 1 : OptionsIndex - 1;
-                    return new Navigation(NavigationAction.Null, NullGameElement.GetInstance());
+                    return new Navigation(NavigationAction.Null, NullGameComponent.GetInstance());
                 case UserAction.Down:
                     OptionsIndex = (OptionsIndex + 1) % Options.Length;
-                    return new Navigation(NavigationAction.Null, NullGameElement.GetInstance());
+                    return new Navigation(NavigationAction.Null, NullGameComponent.GetInstance());
                 default:
-                    return new Navigation(NavigationAction.Null, NullGameElement.GetInstance());
+                    return new Navigation(NavigationAction.Null, NullGameComponent.GetInstance());
             }
         }
 

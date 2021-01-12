@@ -1,18 +1,18 @@
 ﻿using System;
 namespace SharpChess
 {
-    public sealed class NullGameElement : GameElement
+    public sealed class NullGameComponent : GameComponent
     {
-        static private NullGameElement _instance;
-        private NullGameElement()
+        static private NullGameComponent _instance;
+        private NullGameComponent()
         {
         }
 
-        public static NullGameElement GetInstance()
+        public static NullGameComponent GetInstance()
         {
             if (_instance == null)
             {
-                _instance = new NullGameElement();
+                _instance = new NullGameComponent();
             }
 
             return _instance;

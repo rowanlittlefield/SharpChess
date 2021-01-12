@@ -1,8 +1,8 @@
 ﻿namespace SharpChess
 {
-    public abstract class GameElement
+    public abstract class GameComponent
     {
-        public GameElement()
+        public GameComponent()
         {
         }
 

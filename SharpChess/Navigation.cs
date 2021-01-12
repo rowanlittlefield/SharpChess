@@ -3,11 +3,11 @@
     public class Navigation
     {
         public readonly NavigationAction Action;
-        public readonly GameElement GameElement;
-        public Navigation(NavigationAction action, GameElement gameElement)
+        public readonly GameComponent GameComponent;
+        public Navigation(NavigationAction action, GameComponent gameElement)
         {
             Action = action;
-            GameElement = gameElement;
+            GameComponent = gameElement;
         }
     }
 }
