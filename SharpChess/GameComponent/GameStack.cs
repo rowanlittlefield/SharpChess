@@ -2,13 +2,13 @@
 
 namespace SharpChess
 {
-    public class GameStack : GameElement
+    public class GameStack : GameComponent
     {
-        private List<GameElement> _store;
+        private List<GameComponent> _store;
 
-        public GameStack(GameElement initialElement)
+        public GameStack(GameComponent initialElement)
         {
-            _store = new List<GameElement>() { initialElement };
+            _store = new List<GameComponent>() { initialElement };
         }
 
         public override View GetView()
@@ -24,10 +24,10 @@ namespace SharpChess
             {
                 case NavigationAction.Next:
                     _pop();
-                    _push(navigation.GameElement);
+                    _push(navigation.GameComponent);
                     break;
                 case NavigationAction.Push:
-                    _push(navigation.GameElement);
+                    _push(navigation.GameComponent);
                     break;
                 case NavigationAction.Close:
                     _pop();
@@ -39,7 +39,7 @@ namespace SharpChess
             return navigation;
         }
 
-        private void _push(GameElement element)
+        private void _push(GameComponent element)
         {
             _store.Add(element);
         }
