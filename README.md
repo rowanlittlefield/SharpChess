@@ -22,6 +22,16 @@ Figure 4: Chess match start menu
 
 ## How to Run
 
+1. [Clone this repo.](https://git-scm.com/book/en/v2/Git-Basics-Getting-a-Git-Repository#_git_cloning)
+
+2. [Install .NET or .NET Core](https://dotnet.microsoft.com/download).
+
+3. Navigate to the cloned project directory in your command line. The project can be built using by running `dotnet publish -c Release -r {RUNTIME_IDENTIFIER}` (see [documentation](https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-publish)). For example, if you wish to build for OSX 10.15, you could use `dotnet publish -c Release -r osx.10.15-x64`.
+
+4. The built executable should be available in `SharpChess/SharpChess/bin/Release/netcoreapp{version}/{RUNTIME_IDENTIFIER}/publish` (e.g., `SharpChess/SharpChess/bin/Release/netcoreapp3.1/osx.10.15-x64/publish`).
+
+5. On mac, the executable can be run from the `publish directory` in the terminal from `./SharpChess`.
+
 ## Functionality & MVP
 
 ### Controls
