@@ -12,9 +12,6 @@ namespace SharpChess
         public override void Execute()
         {
             _match.Save();
-            //FileHandler.SaveMatch(_match);
-            //Console.WriteLine("Game saved!");
-            //System.Threading.Thread.Sleep(1000);
         }
     }
 }
