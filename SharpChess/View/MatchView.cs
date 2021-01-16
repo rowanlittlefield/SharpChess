@@ -8,6 +8,7 @@ namespace SharpChess
         public MatchView(Match match)
         {
             _match = match;
+            _match.SavedGame += _renderGameSavedMessage;
         }
 
         public override void Render()
@@ -42,6 +43,12 @@ namespace SharpChess
         {
             Console.WriteLine("Turn: {0}", _match.TurnNumber());
             Console.WriteLine("Current Player: {0}", _match.GetCurrentPlayer());
+        }
+
+        private void _renderGameSavedMessage(object source, EventArgs e)
+        {
+            Console.WriteLine("Game saved!");
+            System.Threading.Thread.Sleep(1000);
         }
     }
 }

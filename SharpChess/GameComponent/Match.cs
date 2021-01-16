@@ -8,6 +8,7 @@ namespace SharpChess
         private PieceColor _currentPlayer;
         private History _history;
         private int _unrecordedTurns;
+        private View _view;
         private static string[] DEFAULT_MATCH_LINES = new string[]
         {
             "r:b,k:b,b:b,Q:b,K:b,b:b,k:b,r:b,",
@@ -34,6 +35,7 @@ namespace SharpChess
             _currentPlayer = matchTextParser.CurrentPlayer;
             _history = new History();
             _unrecordedTurns = matchTextParser.NumberOfElapsedTurns;
+            _view = new MatchView(this);
 
             _board.EndTurn += OnEndTurn;
             _history.TimeTraveled += OnTimeTraveled;
@@ -82,7 +84,7 @@ namespace SharpChess
 
         public override View GetView()
         {
-            return new MatchView(this);
+            return _view;
         }
 
         public View GetBoardView()
@@ -110,6 +112,12 @@ namespace SharpChess
             return _currentPlayer;
         }
 
+        public void Save()
+        {
+            FileHandler.SaveMatch(this);
+            OnSavedGame();
+        }
+
         public string[] ToText()
         {
             var allLines = new string[SharedConstants.GridLength + 1];
@@ -128,6 +136,16 @@ namespace SharpChess
         public void OnTimeTraveled(object source, EventArgs e)
         {
             _currentPlayer = _currentPlayer.GetOpposingColor();
+        }
+
+        public event EventHandler<EventArgs> SavedGame;
+
+        protected virtual void OnSavedGame()
+        {
+            if (SavedGame != null)
+            {
+                SavedGame(this, EventArgs.Empty);
+            }
         }
     }
 }
