@@ -48,3 +48,7 @@ The control scheme is described below. Type any of the following characters to s
 * `f` - Flips the board about the horizontal axis passing between rows 4 and 5.
 * `u` - Undo the previous turn when pressed during a match. This will decrement the displayed turn number, return the piece moved in the last turn to its previous location, move the cursor to the previous destination, and toggle the current user. This command does nothing on turn 1. After loading a saved game, you cannot undo turns that were played before saving.
 * `r` - Redo an undone turn. Reverses all changes from the last undo command. Note: The redo cache will be cleared if you undo a command, then set a new space prior to redo.
+
+### History Feature
+
+This history feature (undo and redo commands which are accessible during a match) utilize the well-known [memento pattern](https://en.wikipedia.org/wiki/Memento_pattern), where the `Board` class (see [`SharpChess/SharpChess/Domain/Board.cs`](https://github.com/rowanlittlefield/SharpChess/blob/master/SharpChess/Domain/Board.cs)) acts last the *originator*, the `BoardMemento` class (see [`SharpChess/SharpChess/Domain/BoardMemento.cs`](https://github.com/rowanlittlefield/SharpChess/blob/master/SharpChess/Domain/BoardMemento.cs)) acts as the *memento*, and the `History` class (see [`SharpChess/SharpChess/Domain/History.cs`](https://github.com/rowanlittlefield/SharpChess/blob/master/SharpChess/Domain/History.cs)) acts as the *caretaker*.
