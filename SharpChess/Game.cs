@@ -4,12 +4,10 @@ namespace SharpChess
 {
     public class Game
     {
-        private Controller _controller;
         private GameStack _gameStack;
 
         public Game()
         {
-            _controller = new Controller();
             var mainMenu = new MainMenu();
             _gameStack = new GameStack(mainMenu);
         }
@@ -26,7 +24,7 @@ namespace SharpChess
         {
             Console.Clear();
             _gameStack.GetView().Render();
-            var userAction = _controller.getUserAction();
+            var userAction = Controller.getUserAction();
             _gameStack.HandleUserAction(userAction);
         }
     }

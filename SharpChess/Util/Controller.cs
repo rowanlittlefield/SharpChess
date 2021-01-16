@@ -1,13 +1,10 @@
 ﻿using System;
 namespace SharpChess
 {
-    public class Controller
+    static public class Controller
     {
-        public Controller()
-        {
-        }
 
-        public UserAction getUserAction()
+        static public UserAction getUserAction()
         {
             var userAction = UserAction.Null;
 
@@ -20,7 +17,7 @@ namespace SharpChess
             return userAction;
         }
 
-        private UserAction _mapInput(char userInput)
+        static private UserAction _mapInput(char userInput)
         {
             switch (userInput)
             {
