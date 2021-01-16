@@ -6,6 +6,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Enum\" />
+    <Folder Include="Domain\" />
+    <Folder Include="Domain\Command\" />
+    <Folder Include="Domain\Enum\" />
+    <Folder Include="Domain\Piece\" />
+    <Folder Include="Domain\GameComponent\" />
+    <Folder Include="Domain\PieceSelection\" />
+    <Folder Include="Domain\PieceVisitor\" />
+    <Folder Include="UI\View\" />
+    <Folder Include="UI\PieceView\" />
   </ItemGroup>
 </Project>
