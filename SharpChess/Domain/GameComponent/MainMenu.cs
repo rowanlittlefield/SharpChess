@@ -2,15 +2,15 @@
 {
     public class MainMenu : GameComponent
     {
-        public readonly string[] Options = new string[]
-        {
-            "New Game",
-            "Load Game",
-        };
+        public readonly string[] Options;
         public int OptionsIndex { get; private set; }
         public MainMenu()
         {
             OptionsIndex = 0;
+
+            Options = FileHandler.SavedMatchExists()
+                ? new string[] { "New Game", "Load Game" }
+                : new string[] { "New Game" };
         }
 
         public override Navigation HandleUserAction(UserAction userAction)

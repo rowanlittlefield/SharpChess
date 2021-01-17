@@ -19,6 +19,12 @@ namespace SharpChess
             return new Match(matchTextLines);
         }
 
+        public static bool SavedMatchExists()
+        {
+            var savedFilePath = _getSavedFilePath();
+            return File.Exists(savedFilePath);
+        }
+
         private static string _getSavedFilePath()
         {
             var debugRedirect = "";
