@@ -49,6 +49,41 @@ The control scheme is described below. Type any of the following characters to s
 * `u` - Undo the previous turn when pressed during a match. This will decrement the displayed turn number, return the piece moved in the last turn to its previous location, move the cursor to the previous destination, and toggle the current user. This command does nothing on turn 1. After loading a saved game, you cannot undo turns that were played before saving.
 * `r` - Redo an undone turn. Reverses all changes from the last undo command. Note: The redo cache will be cleared if you undo a command, then set a new space prior to redo.
 
+### Save Game Feature
+
+While playing a match, the user can select the “Save” option in the start match menu to save a game. Then, selecting the “Load” option in the main menu will start the saved match. The game is saved by serializing the match to a text format and writing the result to a text file. An example of a serialized match is the following:
+```text
+r:b,k:b,b:b,Q:b,K:b,b:b, : ,r:b,
+p:b,p:b,p:b,p:b,p:b,p:b,p:b,p:b,
+ : , : , : , : , : , : , : ,k:b,
+ : , : , : , : , : , : , : , : ,
+ : , : , : , : , : , : , : , : ,
+ : , : , : , : , : , : , : ,k:w,
+p:w,p:w,p:w,p:w,p:w,p:w,p:w,p:w,
+r:w,k:w,b:w,Q:w,K:w,b:w, : ,r:w,
+turn:2
+```
+The first eight rows in the file correspond to the row of the board, while the last row records the current turn number as `turn:{current turn number}`. The first eight rows contain piece tokens of the format {piece type token}:{piece color token}. Each piece token is delimited by a comma. Mappings of the piece type token to piece type and piece color token to piece color are shown in figures 5 and 6, respectively.
+
+Piece type token | Piece type
+-----------------|-----------
+K | King
+Q | Queen
+r | Rook
+b | Bishop
+k | knight
+p | Pawn
+&nbsp; | Null piece
+  
+Figure 5: Map of piece type tokens to piece types.
+
+Piece color token | Piece color
+------------------|------------
+b | Black
+w | White
+&nbsp; | Null piece color
+
+Figure 6: Map of piece color tokens to piece colors.
 ### History Feature
 
 This history feature (undo and redo commands which are accessible during a match) utilize the well-known [memento pattern](https://en.wikipedia.org/wiki/Memento_pattern), where the `Board` class (see [`SharpChess/SharpChess/Domain/Board.cs`](https://github.com/rowanlittlefield/SharpChess/blob/master/SharpChess/Domain/Board.cs)) acts last the *originator*, the `BoardMemento` class (see [`SharpChess/SharpChess/Domain/BoardMemento.cs`](https://github.com/rowanlittlefield/SharpChess/blob/master/SharpChess/Domain/BoardMemento.cs)) acts as the *memento*, and the `History` class (see [`SharpChess/SharpChess/Domain/History.cs`](https://github.com/rowanlittlefield/SharpChess/blob/master/SharpChess/Domain/History.cs)) acts as the *caretaker*.
