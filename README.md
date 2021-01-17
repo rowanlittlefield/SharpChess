@@ -12,13 +12,9 @@ Figure 1: Main menu
 
 Figure 2: Chess match rendered using default theme
 
-![Screen Shot 2021-01-12 at 7 55 57 PM](https://user-images.githubusercontent.com/30376211/104392458-17ad4080-5510-11eb-8609-7a3b487d33d4.png)
-
-Figure 3: Chess match rendered using unicode piece theme
-
 ![Screen Shot 2021-01-12 at 7 56 57 PM](https://user-images.githubusercontent.com/30376211/104392569-59d68200-5510-11eb-8171-ed30e8a06116.png)
 
-Figure 4: Chess match start menu
+Figure 3: Chess match rendered using unicode piece theme with start menu opened.
 
 ## How to Run
 
@@ -63,7 +59,7 @@ p:w,p:w,p:w,p:w,p:w,p:w,p:w,p:w,
 r:w,k:w,b:w,Q:w,K:w,b:w, : ,r:w,
 turn:2
 ```
-The first eight rows in the file correspond to the row of the board, while the last row records the current turn number as `turn:{current turn number}`. The first eight rows contain piece tokens of the format {piece type token}:{piece color token}. Each piece token is delimited by a comma. Mappings of the piece type token to piece type and piece color token to piece color are shown in figures 5 and 6, respectively.
+The first eight rows in the file correspond to the row of the board, while the last row records the current turn number as `turn:{current turn number}`. The first eight rows contain piece tokens of the format {piece type token}:{piece color token}. Each piece token is delimited by a comma. Mappings of the piece type token to piece type and piece color token to piece color are shown in figures 4 and 5, respectively.
 
 Piece type token | Piece type
 -----------------|-----------
@@ -75,7 +71,7 @@ k | knight
 p | Pawn
 &nbsp; | Null piece
   
-Figure 5: Map of piece type tokens to piece types.
+Figure 4: Map of piece type tokens to piece types.
 
 Piece color token | Piece color
 ------------------|------------
@@ -83,7 +79,7 @@ b | Black
 w | White
 &nbsp; | Null piece color
 
-Figure 6: Map of piece color tokens to piece colors.
+Figure 5: Map of piece color tokens to piece colors.
 ### History Feature
 
 This history feature (undo and redo commands which are accessible during a match) utilize the well-known [memento pattern](https://en.wikipedia.org/wiki/Memento_pattern), where the `Board` class (see [`SharpChess/SharpChess/Domain/Board.cs`](https://github.com/rowanlittlefield/SharpChess/blob/master/SharpChess/Domain/Board.cs)) acts last the *originator*, the `BoardMemento` class (see [`SharpChess/SharpChess/Domain/BoardMemento.cs`](https://github.com/rowanlittlefield/SharpChess/blob/master/SharpChess/Domain/BoardMemento.cs)) acts as the *memento*, and the `History` class (see [`SharpChess/SharpChess/Domain/History.cs`](https://github.com/rowanlittlefield/SharpChess/blob/master/SharpChess/Domain/History.cs)) acts as the *caretaker*.
